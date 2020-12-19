@@ -9,7 +9,7 @@ namespace How2CSS.Core.Models
     {
         public int Id { get; set; }
         public int CompletedCount { get; set; }
-        public int CurrentCount { get; set; }
+        public int CorrectCount { get; set; }
         public int CurrentMark { get; set; }
         public int TryCount { get; set; }
         public int IdUserAchievement { get; set; }

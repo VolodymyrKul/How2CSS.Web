@@ -23,13 +23,13 @@ namespace How2CSS.Core.Mapping
             CreateMap<UserAchievement, UserAchievementDTO>()
                 .ForMember(dest => dest.UserEmail, opts => opts.MapFrom(item => item.IdUserNavigation.Email))
                 .ForMember(dest => dest.TrainingTestTitle, opts => opts.MapFrom(item => "CSS Test"))
-                .ForMember(dest => dest.TrainingTestTotal, opts => opts.MapFrom(item => 20));
+                .ForMember(dest => dest.TrainingTestTotal, opts => opts.MapFrom(item => 30));
             CreateMap<UserAchievementDTO, UserAchievement>();
 
             CreateMap<UserAchievement, GetUserAchievementDTO>()
                 .ForMember(dest => dest.UserEmail, opts => opts.MapFrom(item => item.IdUserNavigation.Email))
                 .ForMember(dest => dest.TrainingTestTitle, opts => opts.MapFrom(item => "CSS Test"))
-                .ForMember(dest => dest.TrainingTestTotal, opts => opts.MapFrom(item => 20));
+                .ForMember(dest => dest.TrainingTestTotal, opts => opts.MapFrom(item => 30));
 
             CreateMap<SetUserAchievementDTO, UserAchievement>();
         }
