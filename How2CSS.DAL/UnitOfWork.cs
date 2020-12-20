@@ -13,6 +13,7 @@ namespace How2CSS.DAL
         private IUserRepo _userRepo;
         private IUserAchievementRepo _userAchievementRepo;
         private IAchievementDataRepo _achievementDataRepo;
+        private ILevelRepo _levelRepo;
         private How2CSSDbContext _context;
 
         public UnitOfWork(How2CSSDbContext context)
@@ -51,6 +52,11 @@ namespace How2CSS.DAL
         public IAchievementDataRepo AchievementDataRepo
         {
             get { return _achievementDataRepo ??= new AchievementDataRepo(_context); }
+        }
+
+        public ILevelRepo LevelRepo
+        {
+            get { return _levelRepo ??= new LevelRepo(_context); }
         }
     }
 }

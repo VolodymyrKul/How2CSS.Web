@@ -21,6 +21,7 @@ namespace How2CSS.Web.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserAchievementService, UserAchievementService>();
             services.AddScoped<IAchievementDataService, AchievementDataService>();
+            services.AddScoped<ILevelService, LevelService>();
         }
 
         public static void ConfigureSwagger(this IServiceCollection services)

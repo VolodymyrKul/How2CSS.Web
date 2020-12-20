@@ -22,16 +22,22 @@ namespace How2CSS.Core.Mapping
 
             CreateMap<UserAchievement, UserAchievementDTO>()
                 .ForMember(dest => dest.UserEmail, opts => opts.MapFrom(item => item.IdUserNavigation.Email))
-                .ForMember(dest => dest.TrainingTestTitle, opts => opts.MapFrom(item => "CSS Test"))
-                .ForMember(dest => dest.TrainingTestTotal, opts => opts.MapFrom(item => 30));
+                .ForMember(dest => dest.LevelTitle, opts => opts.MapFrom(item => item.IdLevelNavigation.Title))
+                .ForMember(dest => dest.LevelTotal, opts => opts.MapFrom(item => item.IdLevelNavigation.TasksCount));
             CreateMap<UserAchievementDTO, UserAchievement>();
 
             CreateMap<UserAchievement, GetUserAchievementDTO>()
                 .ForMember(dest => dest.UserEmail, opts => opts.MapFrom(item => item.IdUserNavigation.Email))
-                .ForMember(dest => dest.TrainingTestTitle, opts => opts.MapFrom(item => "CSS Test"))
-                .ForMember(dest => dest.TrainingTestTotal, opts => opts.MapFrom(item => 30));
+                .ForMember(dest => dest.LevelTitle, opts => opts.MapFrom(item => item.IdLevelNavigation.Title))
+                .ForMember(dest => dest.LevelTotal, opts => opts.MapFrom(item => item.IdLevelNavigation.TasksCount));
 
             CreateMap<SetUserAchievementDTO, UserAchievement>();
+
+            CreateMap<AchievementData, AchievementDataDTO>();
+            CreateMap<AchievementDataDTO, AchievementData>();
+
+            CreateMap<Level, LevelDTO>();
+            CreateMap<LevelDTO, Level>();
         }
     }
 }

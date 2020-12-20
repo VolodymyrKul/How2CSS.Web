@@ -11,6 +11,7 @@ namespace How2CSS.Core.Abstractions
         IUserRepo UserRepo { get; }
         IUserAchievementRepo UserAchievementRepo { get; }
         IAchievementDataRepo AchievementDataRepo { get; }
+        ILevelRepo LevelRepo { get; }
         Task SaveChangesAsync();
     }
 }

@@ -19,6 +19,7 @@ namespace How2CSS.DAL
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserAchievement> UserAchievements { get; set; }
         public virtual DbSet<AchievementData> AchievementDatas { get; set; }
+        public virtual DbSet<Level> Levels { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -113,6 +114,50 @@ namespace How2CSS.DAL
                     });
             });
 
+            modelBuilder.Entity<Level>(entity => 
+            {
+                entity.HasKey(e => e.Id)
+                .HasName("XPKLevel");
+
+                entity.Property(e => e.Id)
+                .HasColumnName("Id_Level");
+
+                entity.Property(e => e.Title)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+                entity.HasData(
+                    new Level {
+                        Id = 1,
+                        Title = "CSS Part1",
+                        TasksCount = 30
+                    },
+                    new Level
+                    {
+                        Id = 2,
+                        Title = "CSS Part2",
+                        TasksCount = 30
+                    },
+                    new Level
+                    {
+                        Id = 3,
+                        Title = "CSS Part3",
+                        TasksCount = 30
+                    },
+                    new Level
+                    {
+                        Id = 4,
+                        Title = "CSS Part4",
+                        TasksCount = 30
+                    },
+                    new Level
+                    {
+                        Id = 5,
+                        Title = "CSS Part5",
+                        TasksCount = 30
+                    });
+            });
+
             modelBuilder.Entity<UserAchievement>(entity =>
             {
                 entity.HasKey(e => e.Id)
@@ -134,12 +179,17 @@ namespace How2CSS.DAL
                 .HasForeignKey(ua => ua.IdUser)
                 .HasConstraintName("R_1");
 
+                entity.HasOne(ua => ua.IdLevelNavigation)
+                .WithMany(l => l.UserAchievements)
+                .HasForeignKey(ua => ua.IdLevel)
+                .HasConstraintName("R_3");
+
                 entity.HasData(
                     new UserAchievement {
                         Id=1,
                         Title = "Task1 Achivement",
                         Notes = "Need to learn margin",
-                        IdTrainingTest = 1,
+                        IdLevel = 1,
                         IdUser = 1,
                         SaveDate = new DateTime(2020,12,19)
                     },
@@ -148,7 +198,7 @@ namespace How2CSS.DAL
                         Id = 2,
                         Title = "Task2 Achivement",
                         Notes = "Need to learn padding",
-                        IdTrainingTest = 2,
+                        IdLevel = 2,
                         IdUser = 1,
                         SaveDate = new DateTime(2020, 12, 21)
                     },
@@ -157,7 +207,7 @@ namespace How2CSS.DAL
                         Id = 3,
                         Title = "Task3 Achivement",
                         Notes = "Need to learn border",
-                        IdTrainingTest = 3,
+                        IdLevel = 3,
                         IdUser = 1,
                         SaveDate = new DateTime(2020, 12, 23)
                     },
@@ -166,7 +216,7 @@ namespace How2CSS.DAL
                         Id = 4,
                         Title = "Task4 Achivement",
                         Notes = "Need to learn links",
-                        IdTrainingTest = 4,
+                        IdLevel = 4,
                         IdUser = 1,
                         SaveDate = new DateTime(2020, 12, 25)
                     },
@@ -175,7 +225,7 @@ namespace How2CSS.DAL
                         Id = 5,
                         Title = "Task5 Achivement",
                         Notes = "Need to learn tables",
-                        IdTrainingTest = 5,
+                        IdLevel = 5,
                         IdUser = 1,
                         SaveDate = new DateTime(2020, 12, 27)
                     },
@@ -184,7 +234,7 @@ namespace How2CSS.DAL
                         Id = 6,
                         Title = "Task1 Achivement",
                         Notes = "Need to learn position",
-                        IdTrainingTest = 1,
+                        IdLevel = 1,
                         IdUser = 2,
                         SaveDate = new DateTime(2020, 12, 29)
                     },
@@ -193,7 +243,7 @@ namespace How2CSS.DAL
                         Id = 7,
                         Title = "Task2 Achivement",
                         Notes = "Need to learn float",
-                        IdTrainingTest = 2,
+                        IdLevel = 2,
                         IdUser = 2,
                         SaveDate = new DateTime(2020, 12, 31)
                     },
@@ -202,7 +252,7 @@ namespace How2CSS.DAL
                         Id = 8,
                         Title = "Task3 Achivement",
                         Notes = "Need to learn align",
-                        IdTrainingTest = 3,
+                        IdLevel = 3,
                         IdUser = 2,
                         SaveDate = new DateTime(2020, 12, 20)
                     },
@@ -211,7 +261,7 @@ namespace How2CSS.DAL
                         Id = 9,
                         Title = "Task4 Achivement",
                         Notes = "Need to learn opacity",
-                        IdTrainingTest = 4,
+                        IdLevel = 4,
                         IdUser = 2,
                         SaveDate = new DateTime(2020, 12, 22)
                     },
@@ -220,7 +270,7 @@ namespace How2CSS.DAL
                         Id = 10,
                         Title = "Task5 Achivement",
                         Notes = "Need to learn forms",
-                        IdTrainingTest = 5,
+                        IdLevel = 5,
                         IdUser = 2,
                         SaveDate = new DateTime(2020, 12, 24)
                     });

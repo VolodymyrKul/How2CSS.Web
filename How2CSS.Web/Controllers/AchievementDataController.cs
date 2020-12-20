@@ -1,4 +1,5 @@
 ﻿using How2CSS.Core.Abstractions.IServices;
+using How2CSS.Core.DTO.AchievementsDTOs.SpecializedDTOs;
 using How2CSS.Core.DTO.AchievementsDTOs.StandartDTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -54,6 +55,13 @@ namespace How2CSS.Web.Controllers
         {
             await _achievementDataService.DeleteAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("compare/{oid}/{aid}")]
+        public async Task<ActionResult<List<CompareAchievDataDTO>>> Compare(int oid, int aid)
+        {
+            var result = await _achievementDataService.GetCompareAchievs(oid, aid);
+            return Ok(result);
         }
     }
 }

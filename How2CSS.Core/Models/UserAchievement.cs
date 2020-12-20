@@ -14,12 +14,13 @@ namespace How2CSS.Core.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Notes { get; set; }
-        public int IdTrainingTest { get; set; }
+        public int IdLevel { get; set; }
         public int IdUser { get; set; }
         public DateTime SaveDate { get; set; }
 
 
         public virtual User IdUserNavigation { get; set; }
+        public virtual Level IdLevelNavigation { get; set; }
         public virtual ICollection<AchievementData> AchievementDatas { get; set; }
     }
 }
