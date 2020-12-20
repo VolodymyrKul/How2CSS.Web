@@ -134,7 +134,7 @@ namespace How2CSS.Services
                     {
                         compareAchievDataDTO.OwnCompletedCount = ownAchievementData.CompletedCount.ToString() + "/" + LevelTotal.ToString();
                         compareAchievDataDTO.OwnCorrectCount = ownAchievementData.CorrectCount.ToString() + "/" + LevelTotal.ToString();
-                        compareAchievDataDTO.OwnCurrentMark = ownAchievementData.CurrentMark.ToString() + "/" + LevelTotal.ToString();
+                        compareAchievDataDTO.OwnCurrentMark = ownAchievementData.CurrentMark.ToString();
                     }
 
                     if (antAchievementData == null)
@@ -147,13 +147,77 @@ namespace How2CSS.Services
                     {
                         compareAchievDataDTO.AntCompletedCount = antAchievementData.CompletedCount.ToString() + "/" + LevelTotal.ToString();
                         compareAchievDataDTO.AntCorrectCount = antAchievementData.CorrectCount.ToString() + "/" + LevelTotal.ToString();
-                        compareAchievDataDTO.AntCurrentMark = antAchievementData.CurrentMark.ToString() + "/" + LevelTotal.ToString();
+                        compareAchievDataDTO.AntCurrentMark = antAchievementData.CurrentMark.ToString();
                     }
                     compareAchievDataDTO.TrainingTestTitle = LevelTitle;
                     compareAchievDataDTOs.Add(compareAchievDataDTO);
                 }
             }
             return compareAchievDataDTOs;
+        }
+
+        public virtual async Task<List<SimpleAchievDataDTO>> GetAchievsByEmail(string UserEmail)
+        {
+            List<UserAchievement> userAchievements = (await _unitOfWork.UserAchievementRepo.GetAllAsync()).Where(ua => ua.IdUserNavigation.Email == UserEmail).ToList();
+            List<AchievementData> achievementDatas = new List<AchievementData>();
+            List<AchievementData> allAchievementDatas = (await _unitOfWork.AchievementDataRepo.GetAllAsync()).ToList();
+            foreach (UserAchievement userAchievement in userAchievements)
+            {
+                achievementDatas.AddRange(allAchievementDatas.Where(ad => ad.IdUserAchievement == userAchievement.Id));
+            }
+            List<SimpleAchievDataDTO> simpleAchievDataDTOs = achievementDatas.Select(ad => _mapper.Map(ad, new SimpleAchievDataDTO())).ToList();
+            return simpleAchievDataDTOs;
+        }
+
+        public virtual async Task<List<DetailAchievDataDTO>> GetDetailAchievsByEmail(string UserEmail)
+        {
+            List<UserAchievement> userAchievements = (await _unitOfWork.UserAchievementRepo.GetAllAsync()).Where(ua => ua.IdUserNavigation.Email == UserEmail).ToList();
+            List<AchievementData> achievementDatas = new List<AchievementData>();
+            List<AchievementData> allAchievementDatas = (await _unitOfWork.AchievementDataRepo.GetAllAsync()).ToList();
+            foreach (UserAchievement userAchievement in userAchievements)
+            {
+                achievementDatas.AddRange(allAchievementDatas.Where(ad => ad.IdUserAchievement == userAchievement.Id));
+            }
+            List<DetailAchievDataDTO> simpleAchievDataDTOs = achievementDatas.Select(ad => _mapper.Map(ad, new DetailAchievDataDTO())).ToList();
+            return simpleAchievDataDTOs;
+        }
+
+        public virtual async Task<bool> SaveAchievement(SetUserAchievementDTO setUserAchievementDTO)
+        {
+            User CurrentUser = (await _unitOfWork.UserRepo.GetAllAsync()).FirstOrDefault(u => u.Email == setUserAchievementDTO.UserEmail);
+            Level CurrentLevel = (await _unitOfWork.LevelRepo.GetAllAsync()).FirstOrDefault(l => l.Title == setUserAchievementDTO.LevelTitle);
+            if(CurrentUser == null)
+            {
+                return false;
+            }
+            UserAchievement userAchievement = (await _unitOfWork.UserAchievementRepo.GetAllAsync()).FirstOrDefault(ua => ua.IdUser == CurrentUser.Id);
+            if(userAchievement == null)
+            {
+                await _unitOfWork.UserAchievementRepo.AddAsync(new UserAchievement {
+                    IdUser = CurrentUser.Id,
+                    Title = setUserAchievementDTO.Title,
+                    Notes = setUserAchievementDTO.Notes,
+                    IdLevel = CurrentLevel.Id,
+                    SaveDate = DateTime.Now
+                });
+                AchievementData achievementData = _mapper.Map(setUserAchievementDTO, new AchievementData());
+                achievementData.TryCount = 1;
+                achievementData.IdUserAchievement = (await _unitOfWork.UserAchievementRepo.GetAllAsync())
+                    .FirstOrDefault(ua => ua.IdUser == CurrentUser.Id && ua.IdLevel == CurrentLevel.Id).Id;
+                await _unitOfWork.AchievementDataRepo.AddAsync(achievementData);
+            }
+            else
+            {
+                userAchievement.Title = setUserAchievementDTO.Title;
+                userAchievement.Notes = setUserAchievementDTO.Notes;
+                userAchievement.SaveDate = DateTime.Now;
+                await _unitOfWork.UserAchievementRepo.UpdateAsync(userAchievement);
+                AchievementData achievementData = _mapper.Map(setUserAchievementDTO, new AchievementData());
+                achievementData.TryCount = (await _unitOfWork.AchievementDataRepo.GetAllAsync()).Count(ad => ad.IdUserAchievement == userAchievement.Id) + 1;
+                achievementData.IdUserAchievement = userAchievement.Id;
+                await _unitOfWork.AchievementDataRepo.AddAsync(achievementData);
+            }
+            return true;
         }
     }
 }

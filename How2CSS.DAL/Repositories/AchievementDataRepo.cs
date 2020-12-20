@@ -22,6 +22,7 @@ namespace How2CSS.DAL.Repositories
         {
             return await _context.Set<AchievementData>()
                 .Include(achievementData => achievementData.IdUserAchievementNavigation)
+                .ThenInclude(userAchievement => userAchievement.IdLevelNavigation)
                 .ToListAsync();
         }
 
@@ -30,6 +31,7 @@ namespace How2CSS.DAL.Repositories
             return await _context.Set<AchievementData>()
                 .Where(e => e.Id == id)
                 .Include(achievementData => achievementData.IdUserAchievementNavigation)
+                .ThenInclude(userAchievement => userAchievement.IdLevelNavigation)
                 .FirstOrDefaultAsync()
                 .ConfigureAwait(false);
         }

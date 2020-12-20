@@ -31,13 +31,27 @@ namespace How2CSS.Core.Mapping
                 .ForMember(dest => dest.LevelTitle, opts => opts.MapFrom(item => item.IdLevelNavigation.Title))
                 .ForMember(dest => dest.LevelTotal, opts => opts.MapFrom(item => item.IdLevelNavigation.TasksCount));
 
-            CreateMap<SetUserAchievementDTO, UserAchievement>();
+            CreateMap<SetUserAchievementDTO, AchievementData>();
 
             CreateMap<AchievementData, AchievementDataDTO>();
             CreateMap<AchievementDataDTO, AchievementData>();
 
             CreateMap<Level, LevelDTO>();
             CreateMap<LevelDTO, Level>();
+
+            CreateMap<AchievementData, SimpleAchievDataDTO>()
+                .ForMember(dest => dest.CompletedCount, opts => opts.MapFrom(item => item.CompletedCount.ToString() + "/" + item.IdUserAchievementNavigation.IdLevelNavigation.TasksCount.ToString()))
+                .ForMember(dest => dest.CorrectCount, opts => opts.MapFrom(item => item.CorrectCount.ToString() + "/" + item.IdUserAchievementNavigation.IdLevelNavigation.TasksCount.ToString()))
+                .ForMember(dest => dest.SaveDate, opts => opts.MapFrom(item => item.IdUserAchievementNavigation.SaveDate))
+                .ForMember(dest => dest.TrainingTestTitle, opts => opts.MapFrom(item => item.IdUserAchievementNavigation.IdLevelNavigation.Title));
+
+            CreateMap<AchievementData, DetailAchievDataDTO>()
+                .ForMember(dest => dest.CompletedCount, opts => opts.MapFrom(item => item.CompletedCount.ToString() + "/" + item.IdUserAchievementNavigation.IdLevelNavigation.TasksCount.ToString()))
+                .ForMember(dest => dest.CorrectCount, opts => opts.MapFrom(item => item.CorrectCount.ToString() + "/" + item.IdUserAchievementNavigation.IdLevelNavigation.TasksCount.ToString()))
+                .ForMember(dest => dest.SaveDate, opts => opts.MapFrom(item => item.IdUserAchievementNavigation.SaveDate))
+                .ForMember(dest => dest.TrainingTestTitle, opts => opts.MapFrom(item => item.IdUserAchievementNavigation.IdLevelNavigation.Title))
+                .ForMember(dest => dest.AchievTitle, opts => opts.MapFrom(item => item.IdUserAchievementNavigation.Title))
+                .ForMember(dest => dest.AchievNotes, opts => opts.MapFrom(item => item.IdUserAchievementNavigation.Notes));
         }
     }
 }

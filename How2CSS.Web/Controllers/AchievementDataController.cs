@@ -63,5 +63,19 @@ namespace How2CSS.Web.Controllers
             var result = await _achievementDataService.GetCompareAchievs(oid, aid);
             return Ok(result);
         }
+
+        [HttpGet("simple/{email}")]
+        public async Task<ActionResult<List<SimpleAchievDataDTO>>> GetSimpleAchievs(string email)
+        {
+            var result = await _achievementDataService.GetAchievsByEmail(email);
+            return Ok(result);
+        }
+
+        [HttpGet("detail/{email}")]
+        public async Task<ActionResult<List<DetailAchievDataDTO>>> GetDetailAchievs(string email)
+        {
+            var result = await _achievementDataService.GetDetailAchievsByEmail(email);
+            return Ok(result);
+        }
     }
 }
