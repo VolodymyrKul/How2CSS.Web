@@ -16,6 +16,7 @@ namespace How2CSS.Web
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,6 +32,17 @@ namespace How2CSS.Web
             services.AddHttpContextAccessor();
             services.AddControllers();
             services.ConfigureSwagger();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      //builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+                                      builder.AllowAnyOrigin()
+                                             .AllowAnyMethod()
+                                             .AllowAnyHeader();
+                                  });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +59,7 @@ namespace How2CSS.Web
             });
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseResponseCaching();
 
             app.UseEndpoints(endpoints =>
