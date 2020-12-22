@@ -36,7 +36,7 @@ namespace How2CSS.Web.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> Pull(SignUpDTO order)
         {
             List<UserDTO> users = await _userService.GetAll();
@@ -64,6 +64,27 @@ namespace How2CSS.Web.Controllers
         {
             await _userService.DeleteAsync(id);
             return NoContent();
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<bool>> Login(SignInDTO order)
+        {
+            var result = await _userService.LoginAsync(order);
+            return Ok(result);
+        }
+
+        [HttpGet("search/{email}")]
+        public async Task<ActionResult<bool>> Search(string email)
+        {
+            var result = await _userService.SearchAsync(email);
+            return result;
+        }
+
+        [HttpGet("info/{email}")]
+        public async Task<ActionResult<UserDTO>> GetUserProfile(string email)
+        {
+            var result = await _userService.GetProfileInfo(email);
+            return Ok(result);
         }
     }
 }

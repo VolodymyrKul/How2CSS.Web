@@ -57,10 +57,10 @@ namespace How2CSS.Web.Controllers
             return NoContent();
         }
 
-        [HttpGet("compare/{oid}/{aid}")]
-        public async Task<ActionResult<List<CompareAchievDataDTO>>> Compare(int oid, int aid)
+        [HttpGet("compare/{oemail}/{aemail}")]
+        public async Task<ActionResult<List<CompareAchievDataDTO>>> Compare(string oemail, string aemail)
         {
-            var result = await _achievementDataService.GetCompareAchievs(oid, aid);
+            var result = await _achievementDataService.GetCompareAchievs(oemail, aemail);
             return Ok(result);
         }
 

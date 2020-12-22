@@ -11,5 +11,8 @@ namespace How2CSS.Core.Abstractions.IServices
 {
     public interface IUserService : IBaseService<UserDTO, SignUpDTO>
     {
+        Task<bool> LoginAsync(SignInDTO entity);
+        Task<bool> SearchAsync(string email);
+        Task<UserDTO> GetProfileInfo(string email);
     }
 }

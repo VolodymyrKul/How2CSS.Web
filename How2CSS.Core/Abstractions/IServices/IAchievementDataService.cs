@@ -11,7 +11,7 @@ namespace How2CSS.Core.Abstractions.IServices
 {
     public interface IAchievementDataService : IBaseService<AchievementDataDTO, AchievementDataDTO>
     {
-        Task<List<CompareAchievDataDTO>> GetCompareAchievs(int OwnUserId, int AnotherUserId);
+        Task<List<CompareAchievDataDTO>> GetCompareAchievs(string OwnUserEmail, string AnotherUserEmail);
         Task<List<SimpleAchievDataDTO>> GetAchievsByEmail(string UserEmail);
         Task<List<DetailAchievDataDTO>> GetDetailAchievsByEmail(string UserEmail);
     }

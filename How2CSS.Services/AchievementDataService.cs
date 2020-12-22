@@ -61,8 +61,11 @@ namespace How2CSS.Services
             return entity;
         }
 
-        public virtual async Task<List<CompareAchievDataDTO>> GetCompareAchievs(int OwnUserId, int AnotherUserId)
+        public virtual async Task<List<CompareAchievDataDTO>> GetCompareAchievs(string OwnUserEmail, string AnotherUserEmail)
         {
+            var users = await _unitOfWork.UserRepo.GetAllAsync();
+            int OwnUserId = users.FirstOrDefault(u => u.Email == OwnUserEmail).Id;
+            int AnotherUserId = users.FirstOrDefault(u => u.Email == AnotherUserEmail).Id;
             List<UserAchievement> allUserAchievements = (await _unitOfWork.UserAchievementRepo.GetAllAsync()).ToList();
             List<UserAchievement> ownAchievs = allUserAchievements.Where(ua => ua.IdUser == OwnUserId).ToList();
             List<UserAchievement> antAchievs = allUserAchievements.Where(ua => ua.IdUser == AnotherUserId).ToList();

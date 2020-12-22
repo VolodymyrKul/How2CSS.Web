@@ -46,7 +46,7 @@ namespace How2CSS.Services
         {
             var user = await _unitOfWork.UserRepo.GetByIdAsync(id);
             if (user == null)
-                throw new Exception("Such order not found");
+                throw new Exception("Such user not found");
             var dto = new UserDTO();
             _mapper.Map(user, dto);
             return dto;
@@ -60,5 +60,48 @@ namespace How2CSS.Services
             await _unitOfWork.SaveChangesAsync();
             return entity;
         }
+
+        public virtual async Task<bool> LoginAsync(SignInDTO entity)
+        {
+            var value = (await _unitOfWork.UserRepo.GetAllAsync()).FirstOrDefault(u => u.Email == entity.Email);
+            if (value != null)
+            {
+                if(value.Password == entity.Password)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> SearchAsync(string email)
+        {
+            var value = (await _unitOfWork.UserRepo.GetAllAsync()).FirstOrDefault(u => u.Email == email);
+            if(value != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public virtual async Task<UserDTO> GetProfileInfo(string email)
+        {
+            var user = (await _unitOfWork.UserRepo.GetAllAsync()).FirstOrDefault(u => u.Email == email);
+            if (user == null)
+                throw new Exception("Such user not found");
+            var dto = new UserDTO();
+            _mapper.Map(user, dto);
+            return dto;
+        }    
     }
 }
