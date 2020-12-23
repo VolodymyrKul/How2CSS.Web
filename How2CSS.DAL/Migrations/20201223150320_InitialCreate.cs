@@ -94,27 +94,27 @@ namespace How2CSS.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "Levels",
                 columns: new[] { "Id_Level", "TasksCount", "Title" },
-                values: new object[] { 1, 30, "CSS Part1" });
+                values: new object[] { 1, 30, "CSS_Part1" });
 
             migrationBuilder.InsertData(
                 table: "Levels",
                 columns: new[] { "Id_Level", "TasksCount", "Title" },
-                values: new object[] { 2, 30, "CSS Part2" });
+                values: new object[] { 2, 30, "CSS_Part2" });
 
             migrationBuilder.InsertData(
                 table: "Levels",
                 columns: new[] { "Id_Level", "TasksCount", "Title" },
-                values: new object[] { 3, 30, "CSS Part3" });
+                values: new object[] { 3, 30, "CSS_Part3" });
 
             migrationBuilder.InsertData(
                 table: "Levels",
                 columns: new[] { "Id_Level", "TasksCount", "Title" },
-                values: new object[] { 4, 30, "CSS Part4" });
+                values: new object[] { 4, 30, "CSS_Part4" });
 
             migrationBuilder.InsertData(
                 table: "Levels",
                 columns: new[] { "Id_Level", "TasksCount", "Title" },
-                values: new object[] { 5, 30, "CSS Part5" });
+                values: new object[] { 5, 30, "CSS_Part5" });
 
             migrationBuilder.InsertData(
                 table: "Users",

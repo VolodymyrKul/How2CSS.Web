@@ -129,31 +129,31 @@ namespace How2CSS.DAL
                 entity.HasData(
                     new Level {
                         Id = 1,
-                        Title = "CSS Part1",
+                        Title = "CSS_Part1",
                         TasksCount = 30
                     },
                     new Level
                     {
                         Id = 2,
-                        Title = "CSS Part2",
+                        Title = "CSS_Part2",
                         TasksCount = 30
                     },
                     new Level
                     {
                         Id = 3,
-                        Title = "CSS Part3",
+                        Title = "CSS_Part3",
                         TasksCount = 30
                     },
                     new Level
                     {
                         Id = 4,
-                        Title = "CSS Part4",
+                        Title = "CSS_Part4",
                         TasksCount = 30
                     },
                     new Level
                     {
                         Id = 5,
-                        Title = "CSS Part5",
+                        Title = "CSS_Part5",
                         TasksCount = 30
                     });
             });

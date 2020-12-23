@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace How2CSS.DAL.Migrations
 {
     [DbContext(typeof(How2CSSDbContext))]
-    [Migration("20201220192541_InitialCreate")]
+    [Migration("20201223150320_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -345,31 +345,31 @@ namespace How2CSS.DAL.Migrations
                         {
                             Id = 1,
                             TasksCount = 30,
-                            Title = "CSS Part1"
+                            Title = "CSS_Part1"
                         },
                         new
                         {
                             Id = 2,
                             TasksCount = 30,
-                            Title = "CSS Part2"
+                            Title = "CSS_Part2"
                         },
                         new
                         {
                             Id = 3,
                             TasksCount = 30,
-                            Title = "CSS Part3"
+                            Title = "CSS_Part3"
                         },
                         new
                         {
                             Id = 4,
                             TasksCount = 30,
-                            Title = "CSS Part4"
+                            Title = "CSS_Part4"
                         },
                         new
                         {
                             Id = 5,
                             TasksCount = 30,
-                            Title = "CSS Part5"
+                            Title = "CSS_Part5"
                         });
                 });
 

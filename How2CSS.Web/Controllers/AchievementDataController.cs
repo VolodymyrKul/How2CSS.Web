@@ -36,7 +36,7 @@ namespace How2CSS.Web.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost("pull")]
         public async Task<ActionResult<AchievementDataDTO>> Pull(AchievementDataDTO order)
         {
             await _achievementDataService.CreateAsync(order);
@@ -75,6 +75,13 @@ namespace How2CSS.Web.Controllers
         public async Task<ActionResult<List<DetailAchievDataDTO>>> GetDetailAchievs(string email)
         {
             var result = await _achievementDataService.GetDetailAchievsByEmail(email);
+            return Ok(result);
+        }
+
+        [HttpPost("save")]
+        public async Task<ActionResult<bool>> SaveUserAchievements(SetUserAchievementDTO achiev)
+        {
+            var result = await _achievementDataService.SaveAchievement(achiev);
             return Ok(result);
         }
     }

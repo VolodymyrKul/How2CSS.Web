@@ -37,18 +37,19 @@ namespace How2CSS.Web.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDTO>> Pull(SignUpDTO order)
+        public async Task<ActionResult<bool>> Pull(SignUpDTO order)
         {
             List<UserDTO> users = await _userService.GetAll();
             var result = users.FirstOrDefault(u => u.Email == order.Email);
             if (result == null)
             {
                 await _userService.CreateAsync(order);
-                return Ok(order);
+                return Ok(true);
             }
             else
             {
-                return BadRequest("User already is in database");
+                //return BadRequest("User already is in database");
+                return Ok(false);
             }
         }
 
