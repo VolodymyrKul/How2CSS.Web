@@ -22,6 +22,17 @@ namespace How2CSS.Web.Extensions
             services.AddScoped<IUserAchievementService, UserAchievementService>();
             services.AddScoped<IAchievementDataService, AchievementDataService>();
             services.AddScoped<ILevelService, LevelService>();
+            services.AddScoped<IAnswerService, AnswerService>();
+            services.AddScoped<ICSSTaskService, CSSTaskService>();
+            services.AddScoped<IHintService, HintService>();
+            services.AddScoped<IMetadataService, MetadataService>();
+            services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<ITagDistributionService, TagDistributionService>();
+            services.AddScoped<ITagService, TagService>();
+            services.AddScoped<ITaskDistributionService, TaskDistributionService>();
+            services.AddScoped<ITaskResultService, TaskResultService>();
+            services.AddScoped<IUnitDistributionService, UnitDistributionService>();
+            services.AddScoped<IUnitService, UnitService>();
         }
 
         public static void ConfigureSwagger(this IServiceCollection services)

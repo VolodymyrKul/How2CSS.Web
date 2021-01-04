@@ -10,6 +10,7 @@ namespace How2CSS.Core.Models
         public User()
         {
             UserAchievements = new HashSet<UserAchievement>();
+            TaskResults = new HashSet<TaskResult>();
         }
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -21,5 +22,6 @@ namespace How2CSS.Core.Models
 
 
         public virtual ICollection<UserAchievement> UserAchievements { get; set; }
+        public virtual ICollection<TaskResult> TaskResults { get; set; }
     }
 }

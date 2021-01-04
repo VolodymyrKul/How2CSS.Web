@@ -318,12 +318,116 @@ namespace How2CSS.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("How2CSS.Core.Models.Answer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id_Answer");
+
+                    b.Property<string>("EtalonAnswer")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id")
+                        .HasName("XPKAnswer");
+
+                    b.ToTable("Answers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EtalonAnswer = "CSS"
+                        });
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.CSSTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id_Task");
+
+                    b.Property<int>("IdAnswer")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IdMetadata")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IdQuestion")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id")
+                        .HasName("XPKTask");
+
+                    b.HasIndex("IdAnswer");
+
+                    b.HasIndex("IdMetadata");
+
+                    b.HasIndex("IdQuestion");
+
+                    b.ToTable("Tasks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IdAnswer = 1,
+                            IdMetadata = 1,
+                            IdQuestion = 1
+                        });
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.Hint", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id_Hint");
+
+                    b.Property<string>("HintText")
+                        .HasMaxLength(200)
+                        .IsUnicode(false)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("HintType")
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("IdTask")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id")
+                        .HasName("XPKHint");
+
+                    b.HasIndex("IdTask");
+
+                    b.ToTable("Hints");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            HintText = "CSS",
+                            HintType = "CSS",
+                            IdTask = 1
+                        });
+                });
+
             modelBuilder.Entity("How2CSS.Core.Models.Level", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasColumnName("Id_Level");
+
+                    b.Property<string>("LevelDifficulty")
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("TasksCount")
                         .HasColumnType("INTEGER");
@@ -342,32 +446,283 @@ namespace How2CSS.DAL.Migrations
                         new
                         {
                             Id = 1,
+                            LevelDifficulty = "Hard",
                             TasksCount = 30,
                             Title = "CSS_Part1"
                         },
                         new
                         {
                             Id = 2,
+                            LevelDifficulty = "Hard",
                             TasksCount = 30,
                             Title = "CSS_Part2"
                         },
                         new
                         {
                             Id = 3,
+                            LevelDifficulty = "Hard",
                             TasksCount = 30,
                             Title = "CSS_Part3"
                         },
                         new
                         {
                             Id = 4,
+                            LevelDifficulty = "Hard",
                             TasksCount = 30,
                             Title = "CSS_Part4"
                         },
                         new
                         {
                             Id = 5,
+                            LevelDifficulty = "Hard",
                             TasksCount = 30,
                             Title = "CSS_Part5"
+                        });
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.Metadata", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id_Metadata");
+
+                    b.HasKey("Id")
+                        .HasName("XPKMetadata");
+
+                    b.ToTable("Metadatas");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1
+                        });
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.Question", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id_Question");
+
+                    b.Property<string>("QuestionText")
+                        .HasMaxLength(500)
+                        .IsUnicode(false)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id")
+                        .HasName("XPKQuestion");
+
+                    b.ToTable("Questions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            QuestionText = "CSS"
+                        });
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id_Tag");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id")
+                        .HasName("XPKTag");
+
+                    b.ToTable("Tags");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "CSS"
+                        });
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.TagDistribution", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id_TagDistribution");
+
+                    b.Property<int>("IdMetadata")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IdTag")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id")
+                        .HasName("XPKTagDistribution");
+
+                    b.HasIndex("IdMetadata");
+
+                    b.HasIndex("IdTag");
+
+                    b.ToTable("TagDistributions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IdMetadata = 1,
+                            IdTag = 1
+                        });
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.TaskDistribution", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id_TaskDistribution");
+
+                    b.Property<int>("IdLevel")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IdTask")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TaskDifficulty")
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TaskOrder")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id")
+                        .HasName("XPKTaskDistribution");
+
+                    b.HasIndex("IdLevel");
+
+                    b.HasIndex("IdTask");
+
+                    b.ToTable("TaskDistributions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IdLevel = 1,
+                            IdTask = 1,
+                            TaskDifficulty = "CSS",
+                            TaskOrder = 1
+                        });
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.TaskResult", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id_TaskResult");
+
+                    b.Property<long>("Duration")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IdTask")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IdUser")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("ResultDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserAnswer")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id")
+                        .HasName("XPKTaskResult");
+
+                    b.HasIndex("IdTask");
+
+                    b.HasIndex("IdUser");
+
+                    b.ToTable("TaskResults");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Duration = 10000L,
+                            IdTask = 1,
+                            IdUser = 1,
+                            ResultDate = new DateTime(2000, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Score = 25,
+                            UserAnswer = "CSS"
+                        });
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.Unit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id_Unit");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id")
+                        .HasName("XPKUnit");
+
+                    b.ToTable("Units");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "CSS"
+                        });
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.UnitDistribution", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id_UnitDistribution");
+
+                    b.Property<int>("IdMetadata")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IdUnit")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id")
+                        .HasName("XPKUnitDistribution");
+
+                    b.HasIndex("IdMetadata");
+
+                    b.HasIndex("IdUnit");
+
+                    b.ToTable("UnitDistributions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IdMetadata = 1,
+                            IdUnit = 1
                         });
                 });
 
@@ -606,6 +961,132 @@ namespace How2CSS.DAL.Migrations
                     b.Navigation("IdUserAchievementNavigation");
                 });
 
+            modelBuilder.Entity("How2CSS.Core.Models.CSSTask", b =>
+                {
+                    b.HasOne("How2CSS.Core.Models.Answer", "IdAnswerNavigation")
+                        .WithMany("Tasks")
+                        .HasForeignKey("IdAnswer")
+                        .HasConstraintName("R_9")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("How2CSS.Core.Models.Metadata", "IdMetadataNavigation")
+                        .WithMany("Tasks")
+                        .HasForeignKey("IdMetadata")
+                        .HasConstraintName("R_11")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("How2CSS.Core.Models.Question", "IdQuestionNavigation")
+                        .WithMany("Tasks")
+                        .HasForeignKey("IdQuestion")
+                        .HasConstraintName("R_10")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("IdAnswerNavigation");
+
+                    b.Navigation("IdMetadataNavigation");
+
+                    b.Navigation("IdQuestionNavigation");
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.Hint", b =>
+                {
+                    b.HasOne("How2CSS.Core.Models.CSSTask", "IdTaskNavigation")
+                        .WithMany("Hints")
+                        .HasForeignKey("IdTask")
+                        .HasConstraintName("R_8")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("IdTaskNavigation");
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.TagDistribution", b =>
+                {
+                    b.HasOne("How2CSS.Core.Models.Metadata", "IdMetadataNavigation")
+                        .WithMany("TagDistributions")
+                        .HasForeignKey("IdMetadata")
+                        .HasConstraintName("R_5")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("How2CSS.Core.Models.Tag", "IdTagNavigation")
+                        .WithMany("TagDistributions")
+                        .HasForeignKey("IdTag")
+                        .HasConstraintName("R_4")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("IdMetadataNavigation");
+
+                    b.Navigation("IdTagNavigation");
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.TaskDistribution", b =>
+                {
+                    b.HasOne("How2CSS.Core.Models.Level", "IdLevelNavigation")
+                        .WithMany("TaskDistributions")
+                        .HasForeignKey("IdLevel")
+                        .HasConstraintName("R_12")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("How2CSS.Core.Models.CSSTask", "IdTaskNavigation")
+                        .WithMany("TaskDistributions")
+                        .HasForeignKey("IdTask")
+                        .HasConstraintName("R_13")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("IdLevelNavigation");
+
+                    b.Navigation("IdTaskNavigation");
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.TaskResult", b =>
+                {
+                    b.HasOne("How2CSS.Core.Models.CSSTask", "IdTaskNavigation")
+                        .WithMany("TaskResults")
+                        .HasForeignKey("IdTask")
+                        .HasConstraintName("R_14")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("How2CSS.Core.Models.User", "IdUserNavigation")
+                        .WithMany("TaskResults")
+                        .HasForeignKey("IdUser")
+                        .HasConstraintName("R_15")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("IdTaskNavigation");
+
+                    b.Navigation("IdUserNavigation");
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.UnitDistribution", b =>
+                {
+                    b.HasOne("How2CSS.Core.Models.Metadata", "IdMetadataNavigation")
+                        .WithMany("UnitDistributions")
+                        .HasForeignKey("IdMetadata")
+                        .HasConstraintName("R_7")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("How2CSS.Core.Models.Unit", "IdUnitNavigation")
+                        .WithMany("UnitDistributions")
+                        .HasForeignKey("IdUnit")
+                        .HasConstraintName("R_6")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("IdMetadataNavigation");
+
+                    b.Navigation("IdUnitNavigation");
+                });
+
             modelBuilder.Entity("How2CSS.Core.Models.UserAchievement", b =>
                 {
                     b.HasOne("How2CSS.Core.Models.Level", "IdLevelNavigation")
@@ -627,13 +1108,55 @@ namespace How2CSS.DAL.Migrations
                     b.Navigation("IdUserNavigation");
                 });
 
+            modelBuilder.Entity("How2CSS.Core.Models.Answer", b =>
+                {
+                    b.Navigation("Tasks");
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.CSSTask", b =>
+                {
+                    b.Navigation("Hints");
+
+                    b.Navigation("TaskDistributions");
+
+                    b.Navigation("TaskResults");
+                });
+
             modelBuilder.Entity("How2CSS.Core.Models.Level", b =>
                 {
+                    b.Navigation("TaskDistributions");
+
                     b.Navigation("UserAchievements");
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.Metadata", b =>
+                {
+                    b.Navigation("TagDistributions");
+
+                    b.Navigation("Tasks");
+
+                    b.Navigation("UnitDistributions");
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.Question", b =>
+                {
+                    b.Navigation("Tasks");
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.Tag", b =>
+                {
+                    b.Navigation("TagDistributions");
+                });
+
+            modelBuilder.Entity("How2CSS.Core.Models.Unit", b =>
+                {
+                    b.Navigation("UnitDistributions");
                 });
 
             modelBuilder.Entity("How2CSS.Core.Models.User", b =>
                 {
+                    b.Navigation("TaskResults");
+
                     b.Navigation("UserAchievements");
                 });
 

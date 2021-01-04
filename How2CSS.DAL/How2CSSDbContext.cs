@@ -20,7 +20,17 @@ namespace How2CSS.DAL
         public virtual DbSet<UserAchievement> UserAchievements { get; set; }
         public virtual DbSet<AchievementData> AchievementDatas { get; set; }
         public virtual DbSet<Level> Levels { get; set; }
-
+        public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<Unit> Units { get; set; }
+        public virtual DbSet<TagDistribution> TagDistributions { get; set; }
+        public virtual DbSet<UnitDistribution> UnitDistributions { get; set; }
+        public virtual DbSet<Answer> Answers { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<Metadata> Metadatas { get; set; }
+        public virtual DbSet<Hint> Hints { get; set; }
+        public virtual DbSet<CSSTask> Tasks { get; set; }
+        public virtual DbSet<TaskDistribution> TaskDistributions { get; set; }
+        public virtual DbSet<TaskResult> TaskResults { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -126,35 +136,44 @@ namespace How2CSS.DAL
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
+                entity.Property(e => e.LevelDifficulty)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+
                 entity.HasData(
                     new Level {
                         Id = 1,
                         Title = "CSS_Part1",
-                        TasksCount = 30
+                        TasksCount = 30,
+                        LevelDifficulty = "Hard"
                     },
                     new Level
                     {
                         Id = 2,
                         Title = "CSS_Part2",
-                        TasksCount = 30
+                        TasksCount = 30,
+                        LevelDifficulty = "Hard"
                     },
                     new Level
                     {
                         Id = 3,
                         Title = "CSS_Part3",
-                        TasksCount = 30
+                        TasksCount = 30,
+                        LevelDifficulty = "Hard"
                     },
                     new Level
                     {
                         Id = 4,
                         Title = "CSS_Part4",
-                        TasksCount = 30
+                        TasksCount = 30,
+                        LevelDifficulty = "Hard"
                     },
                     new Level
                     {
                         Id = 5,
                         Title = "CSS_Part5",
-                        TasksCount = 30
+                        TasksCount = 30,
+                        LevelDifficulty = "Hard"
                     });
             });
 
@@ -558,6 +577,287 @@ namespace How2CSS.DAL
                         CurrentMark = 50,
                         TryCount = 3,
                         IdUserAchievement = 10
+                    });
+            });
+
+            modelBuilder.Entity<Tag>(entity =>
+            {
+                entity.HasKey(e => e.Id)
+                .HasName("XPKTag");
+
+                entity.Property(e => e.Id)
+                .HasColumnName("Id_Tag");
+
+                entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+                entity.HasData(
+                    new Tag 
+                    {
+                        Id = 1,
+                        Name = "CSS"
+                    });
+            });
+
+            modelBuilder.Entity<Unit>(entity =>
+            {
+                entity.HasKey(e => e.Id)
+                .HasName("XPKUnit");
+
+                entity.Property(e => e.Id)
+                .HasColumnName("Id_Unit");
+
+                entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+                entity.HasData(
+                    new Unit 
+                    {
+                        Id = 1,
+                        Name = "CSS"
+                    });
+            });
+
+            modelBuilder.Entity<TagDistribution>(entity => 
+            {
+                entity.HasKey(e => e.Id)
+                .HasName("XPKTagDistribution");
+
+                entity.Property(e => e.Id)
+                .HasColumnName("Id_TagDistribution");
+
+                entity.HasOne(td => td.IdTagNavigation)
+                .WithMany(t => t.TagDistributions)
+                .HasForeignKey(td => td.IdTag)
+                .HasConstraintName("R_4");
+
+                entity.HasOne(td => td.IdMetadataNavigation)
+                .WithMany(m => m.TagDistributions)
+                .HasForeignKey(td => td.IdMetadata)
+                .HasConstraintName("R_5");
+
+                entity.HasData(
+                    new TagDistribution 
+                    {
+                        Id = 1,
+                        IdMetadata = 1,
+                        IdTag = 1
+                    });
+            });
+
+            modelBuilder.Entity<UnitDistribution>(entity => 
+            {
+                entity.HasKey(e => e.Id)
+                .HasName("XPKUnitDistribution");
+
+                entity.Property(e => e.Id)
+                .HasColumnName("Id_UnitDistribution");
+
+                entity.HasOne(ud => ud.IdUnitNavigation)
+                .WithMany(u => u.UnitDistributions)
+                .HasForeignKey(ud => ud.IdUnit)
+                .HasConstraintName("R_6");
+
+                entity.HasOne(ud => ud.IdMetadataNavigation)
+                .WithMany(m => m.UnitDistributions)
+                .HasForeignKey(ud => ud.IdMetadata)
+                .HasConstraintName("R_7");
+
+                entity.HasData(
+                    new UnitDistribution 
+                    {
+                        Id = 1,
+                        IdMetadata = 1,
+                        IdUnit = 1
+                    });
+            });
+
+            modelBuilder.Entity<Metadata>(entity => 
+            {
+                entity.HasKey(e => e.Id)
+                .HasName("XPKMetadata");
+
+                entity.Property(e => e.Id)
+                .HasColumnName("Id_Metadata");
+
+                entity.HasData(
+                    new Metadata 
+                    {
+                        Id = 1
+                    });
+            });
+
+            modelBuilder.Entity<Question>(entity => 
+            {
+                entity.HasKey(e => e.Id)
+                .HasName("XPKQuestion");
+
+                entity.Property(e => e.Id)
+                .HasColumnName("Id_Question");
+
+                entity.Property(e => e.QuestionText)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+
+                entity.HasData(
+                    new Question 
+                    {
+                        Id = 1,
+                        QuestionText = "CSS"
+                    });
+            });
+
+            modelBuilder.Entity<Answer>(entity =>
+            {
+                entity.HasKey(e => e.Id)
+                .HasName("XPKAnswer");
+
+                entity.Property(e => e.Id)
+                .HasColumnName("Id_Answer");
+
+                entity.Property(e => e.EtalonAnswer)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+
+                entity.HasData(
+                    new Answer 
+                    {
+                        Id = 1,
+                        EtalonAnswer = "CSS"
+                    });
+            });
+
+            modelBuilder.Entity<Hint>(entity => 
+            {
+                entity.HasKey(e => e.Id)
+                .HasName("XPKHint");
+
+                entity.Property(e => e.Id)
+                .HasColumnName("Id_Hint");
+
+                entity.Property(e => e.HintType)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+
+                entity.Property(e => e.HintText)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+
+                entity.HasOne(h => h.IdTaskNavigation)
+                .WithMany(t => t.Hints)
+                .HasForeignKey(h => h.IdTask)
+                .HasConstraintName("R_8");
+
+                entity.HasData(
+                    new Hint 
+                    {
+                        Id = 1,
+                        IdTask = 1,
+                        HintType = "CSS",
+                        HintText = "CSS"
+                    });
+            });
+
+            modelBuilder.Entity<CSSTask>(entity => 
+            {
+                entity.HasKey(e => e.Id)
+                .HasName("XPKTask");
+
+                entity.Property(e => e.Id)
+                .HasColumnName("Id_Task");
+
+                entity.HasOne(t => t.IdAnswerNavigation)
+                .WithMany(a => a.Tasks)
+                .HasForeignKey(t => t.IdAnswer)
+                .HasConstraintName("R_9");
+
+                entity.HasOne(t => t.IdQuestionNavigation)
+                .WithMany(q => q.Tasks)
+                .HasForeignKey(t => t.IdQuestion)
+                .HasConstraintName("R_10");
+
+                entity.HasOne(t => t.IdMetadataNavigation)
+                .WithMany(m => m.Tasks)
+                .HasForeignKey(t => t.IdMetadata)
+                .HasConstraintName("R_11");
+
+                entity.HasData(
+                    new CSSTask 
+                    {
+                        Id = 1,
+                        IdAnswer = 1,
+                        IdMetadata = 1,
+                        IdQuestion = 1
+                    });
+            });
+
+            modelBuilder.Entity<TaskDistribution>(entity => 
+            {
+                entity.HasKey(e => e.Id)
+                .HasName("XPKTaskDistribution");
+
+                entity.Property(e => e.Id)
+                .HasColumnName("Id_TaskDistribution");
+
+                entity.Property(e => e.TaskDifficulty)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+
+                entity.HasOne(tsd => tsd.IdLevelNavigation)
+                .WithMany(l => l.TaskDistributions)
+                .HasForeignKey(tsd => tsd.IdLevel)
+                .HasConstraintName("R_12");
+
+                entity.HasOne(tsd => tsd.IdTaskNavigation)
+                .WithMany(t => t.TaskDistributions)
+                .HasForeignKey(tsd => tsd.IdTask)
+                .HasConstraintName("R_13");
+
+                entity.HasData(
+                    new TaskDistribution 
+                    {
+                        Id = 1,
+                        IdLevel = 1,
+                        IdTask = 1,
+                        TaskDifficulty = "CSS",
+                        TaskOrder = 1
+                    });
+            });
+
+            modelBuilder.Entity<TaskResult>(entity => 
+            {
+                entity.HasKey(e => e.Id)
+                .HasName("XPKTaskResult");
+
+                entity.Property(e => e.Id)
+                .HasColumnName("Id_TaskResult");
+
+                entity.Property(e => e.UserAnswer)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+
+                entity.HasOne(tr => tr.IdTaskNavigation)
+                .WithMany(t => t.TaskResults)
+                .HasForeignKey(tr => tr.IdTask)
+                .HasConstraintName("R_14");
+
+                entity.HasOne(tr => tr.IdUserNavigation)
+                .WithMany(u => u.TaskResults)
+                .HasForeignKey(tr => tr.IdUser)
+                .HasConstraintName("R_15");
+
+                entity.HasData(
+                    new TaskResult 
+                    {
+                        Id = 1,
+                        IdUser = 1,
+                        IdTask = 1,
+                        ResultDate = new DateTime(2000,8,11),
+                        Duration = 10000,
+                        UserAnswer = "CSS",
+                        Score = 25
                     });
             });
         }

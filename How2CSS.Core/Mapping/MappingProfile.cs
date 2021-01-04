@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using How2CSS.Core.DTO.AchievementsDTOs.SpecializedDTOs;
 using How2CSS.Core.DTO.AchievementsDTOs.StandartDTOs;
+using How2CSS.Core.DTO.AnotherDTOs.StandartDTOs;
 using How2CSS.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -52,6 +53,18 @@ namespace How2CSS.Core.Mapping
                 .ForMember(dest => dest.TrainingTestTitle, opts => opts.MapFrom(item => item.IdUserAchievementNavigation.IdLevelNavigation.Title))
                 .ForMember(dest => dest.AchievTitle, opts => opts.MapFrom(item => item.IdUserAchievementNavigation.Title))
                 .ForMember(dest => dest.AchievNotes, opts => opts.MapFrom(item => item.IdUserAchievementNavigation.Notes));
+
+            CreateMap<Answer, AnswerDTO>().ReverseMap();
+            CreateMap<CSSTask, CSSTaskDTO>().ReverseMap();
+            CreateMap<Hint, HintDTO>().ReverseMap();
+            CreateMap<Metadata, MetadataDTO>().ReverseMap();
+            CreateMap<Question, QuestionDTO>().ReverseMap();
+            CreateMap<TagDistribution, TagDistributionDTO>().ReverseMap();
+            CreateMap<Tag, TagDTO>().ReverseMap();
+            CreateMap<TaskDistribution, TaskDistributionDTO>().ReverseMap();
+            CreateMap<TaskResult, TaskResultDTO>().ReverseMap();
+            CreateMap<UnitDistribution, UnitDistributionDTO>().ReverseMap();
+            CreateMap<Unit, UnitDTO>().ReverseMap();
         }
     }
 }

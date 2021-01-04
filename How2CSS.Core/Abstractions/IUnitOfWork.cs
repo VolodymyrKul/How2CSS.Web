@@ -8,6 +8,17 @@ namespace How2CSS.Core.Abstractions
 {
     public interface IUnitOfWork : IDisposable
     {
+        IAnswerRepo AnswerRepo { get; }
+        ICSSTaskRepo CSSTaskRepo { get; }
+        IHintRepo HintRepo { get; }
+        IMetadataRepo MetadataRepo { get; }
+        IQuestionRepo QuestionRepo { get; }
+        ITagDistributionRepo TagDistributionRepo { get; }
+        ITagRepo TagRepo { get; }
+        ITaskDistributionRepo TaskDistributionRepo { get; }
+        ITaskResultRepo TaskResultRepo { get; }
+        IUnitDistributionRepo UnitDistributionRepo { get; }
+        IUnitRepo UnitRepo { get; }
         IUserRepo UserRepo { get; }
         IUserAchievementRepo UserAchievementRepo { get; }
         IAchievementDataRepo AchievementDataRepo { get; }

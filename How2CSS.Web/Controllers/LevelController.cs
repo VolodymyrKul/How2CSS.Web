@@ -14,9 +14,9 @@ namespace How2CSS.Web.Controllers
     {
         private ILevelService _levelService;
 
-        public LevelController(ILevelService achievementDataService)
+        public LevelController(ILevelService levelService)
         {
-            _levelService = achievementDataService;
+            _levelService = levelService;
         }
 
         [HttpGet]

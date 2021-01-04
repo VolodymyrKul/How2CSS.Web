@@ -8,4 +8,8 @@
     <PackageReference Include="AutoMapper" Version="10.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTO\AnotherDTOs\SpecializedDTOs\" />
+  </ItemGroup>
+
 </Project>
