@@ -12,9 +12,11 @@ namespace How2CSS.DAL.Repositories.Base
     public class BaseRepo<TEntity> : IBaseRepo<TEntity> where TEntity : class, IBaseEntity
     {
         private readonly How2CSSDbContext _context;
+        private readonly DbSet<TEntity> _dbSet;
         protected BaseRepo(How2CSSDbContext context)
         {
             _context = context;
+            _dbSet = context.Set<TEntity>();
         }
 
         public virtual async Task AddAsync(TEntity entity)
@@ -45,6 +47,12 @@ namespace How2CSS.DAL.Repositories.Base
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await _context.Set<TEntity>().ToListAsync();
+        }
+
+        public virtual IQueryable<TEntity> Get()
+        {
+            IQueryable<TEntity> query = _dbSet;
+            return query;
         }
 
         public virtual async Task<TEntity> GetByIdAsync(int id)

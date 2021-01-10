@@ -1,4 +1,5 @@
-﻿using How2CSS.Core.Models.Base;
+﻿using How2CSS.Core.Enums;
+using How2CSS.Core.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,7 +16,7 @@ namespace How2CSS.Core.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public int TasksCount { get; set; }
-        public string LevelDifficulty { get; set; }
+        public Difficulty LevelDifficulty { get; set; }
 
         public virtual ICollection<UserAchievement> UserAchievements { get; set; }
         public virtual ICollection<TaskDistribution> TaskDistributions { get; set; }

@@ -1,5 +1,6 @@
 ﻿using How2CSS.Core.Abstractions.IServices;
 using How2CSS.Core.DTO.AchievementsDTOs.StandartDTOs;
+using How2CSS.Core.Enums;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -35,11 +36,18 @@ namespace How2CSS.Web.Controllers
             return Ok(result);
         }
 
+        //[HttpPost]
+        //public async Task<ActionResult<LevelDTO>> Pull(LevelDTO order)
+        //{
+        //    await _levelService.CreateAsync(order);
+        //    return Ok(order);
+        //}
+
         [HttpPost]
-        public async Task<ActionResult<LevelDTO>> Pull(LevelDTO order)
+        public async Task<ActionResult> Generate(Difficulty difficulty)
         {
-            await _levelService.CreateAsync(order);
-            return Ok(order);
+            await _levelService.GenerateAsync(difficulty);
+            return Ok();
         }
 
         [HttpPut]

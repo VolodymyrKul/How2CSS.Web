@@ -1,4 +1,5 @@
-﻿using How2CSS.Core.Models.Base;
+﻿using How2CSS.Core.Enums;
+using How2CSS.Core.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,6 +18,7 @@ namespace How2CSS.Core.Models
         public int IdQuestion { get; set; }
         public int IdAnswer { get; set; }
         public int IdMetadata { get; set; }
+        public Difficulty TaskDifficulty { get; set; }
         public virtual Question IdQuestionNavigation { get; set; }
         public virtual Answer IdAnswerNavigation { get; set; }
         public virtual Metadata IdMetadataNavigation { get; set; }
