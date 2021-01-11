@@ -66,7 +66,7 @@ namespace How2CSS.Core.Mapping
             CreateMap<Tag, TagDTO>().ReverseMap();
             CreateMap<TaskDistribution, TaskDistributionDTO>().ReverseMap();
             CreateMap<TaskResult, TaskResultDTO>().ReverseMap();
-            CreateMap<UnitDistribution, UnitDistributionDTO>().ReverseMap();
+            //CreateMap<UnitDistribution, UnitDistributionDTO>().ReverseMap();
             CreateMap<Unit, UnitDTO>().ReverseMap();
         }
     }

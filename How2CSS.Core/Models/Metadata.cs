@@ -9,12 +9,12 @@ namespace How2CSS.Core.Models
     {
         public Metadata()
         {
-            UnitDistributions = new HashSet<UnitDistribution>();
             TagDistributions = new HashSet<TagDistribution>();
             Tasks = new HashSet<CSSTask>();
         }
         public int Id { get; set; }
-        public virtual ICollection<UnitDistribution> UnitDistributions { get; set; }
+        public int IdUnit { get; set; }
+        public virtual Unit IdUnitNavigation { get; set; }
         public virtual ICollection<TagDistribution> TagDistributions { get; set; }
         public virtual ICollection<CSSTask> Tasks { get; set; }
     }

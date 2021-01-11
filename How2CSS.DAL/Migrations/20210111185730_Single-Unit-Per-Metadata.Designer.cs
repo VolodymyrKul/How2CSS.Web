@@ -3,14 +3,16 @@ using System;
 using How2CSS.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace How2CSS.DAL.Migrations
 {
     [DbContext(typeof(How2CSSDbContext))]
-    partial class How2CSSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210111185730_Single-Unit-Per-Metadata")]
+    partial class SingleUnitPerMetadata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

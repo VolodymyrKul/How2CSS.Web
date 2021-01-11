@@ -7,5 +7,6 @@ namespace How2CSS.Core.DTO.AnotherDTOs.StandartDTOs
     public class MetadataDTO
     {
         public int Id { get; set; }
+        public int IdUnit { get; set; }
     }
 }

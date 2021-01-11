@@ -26,6 +26,7 @@ namespace How2CSS.Services
             _mapper.Map(entity, value);
             await _unitOfWork.UserRepo.AddAsync(value);
             await _unitOfWork.SaveChangesAsync();
+            _mapper.Map(value, entity);
         }
 
         public virtual async Task DeleteAsync(int id)
