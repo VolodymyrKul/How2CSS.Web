@@ -3,14 +3,16 @@ using System;
 using How2CSS.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace How2CSS.DAL.Migrations
 {
     [DbContext(typeof(How2CSSDbContext))]
-    partial class How2CSSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210110121138_Change-Difficulty-To-Enum")]
+    partial class ChangeDifficultyToEnum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -359,9 +361,6 @@ namespace How2CSS.DAL.Migrations
                     b.Property<int>("IdQuestion")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TaskDifficulty")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id")
                         .HasName("XPKTask");
 
@@ -379,8 +378,7 @@ namespace How2CSS.DAL.Migrations
                             Id = 1,
                             IdAnswer = 1,
                             IdMetadata = 1,
-                            IdQuestion = 1,
-                            TaskDifficulty = 0
+                            IdQuestion = 1
                         });
                 });
 
@@ -556,6 +554,9 @@ namespace How2CSS.DAL.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("IdTask")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TaskDifficulty")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("TaskOrder")

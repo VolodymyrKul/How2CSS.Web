@@ -1,4 +1,5 @@
-﻿using How2CSS.Core.Models;
+﻿using How2CSS.Core.Enums;
+using How2CSS.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -135,46 +136,6 @@ namespace How2CSS.DAL
                 entity.Property(e => e.Title)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-
-                entity.Property(e => e.LevelDifficulty)
-                .HasMaxLength(20)
-                .IsUnicode(false);
-
-                entity.HasData(
-                    new Level {
-                        Id = 1,
-                        Title = "CSS_Part1",
-                        TasksCount = 30,
-                        LevelDifficulty = "Hard"
-                    },
-                    new Level
-                    {
-                        Id = 2,
-                        Title = "CSS_Part2",
-                        TasksCount = 30,
-                        LevelDifficulty = "Hard"
-                    },
-                    new Level
-                    {
-                        Id = 3,
-                        Title = "CSS_Part3",
-                        TasksCount = 30,
-                        LevelDifficulty = "Hard"
-                    },
-                    new Level
-                    {
-                        Id = 4,
-                        Title = "CSS_Part4",
-                        TasksCount = 30,
-                        LevelDifficulty = "Hard"
-                    },
-                    new Level
-                    {
-                        Id = 5,
-                        Title = "CSS_Part5",
-                        TasksCount = 30,
-                        LevelDifficulty = "Hard"
-                    });
             });
 
             modelBuilder.Entity<UserAchievement>(entity =>
@@ -801,10 +762,6 @@ namespace How2CSS.DAL
                 entity.Property(e => e.Id)
                 .HasColumnName("Id_TaskDistribution");
 
-                entity.Property(e => e.TaskDifficulty)
-                .HasMaxLength(20)
-                .IsUnicode(false);
-
                 entity.HasOne(tsd => tsd.IdLevelNavigation)
                 .WithMany(l => l.TaskDistributions)
                 .HasForeignKey(tsd => tsd.IdLevel)
@@ -814,16 +771,6 @@ namespace How2CSS.DAL
                 .WithMany(t => t.TaskDistributions)
                 .HasForeignKey(tsd => tsd.IdTask)
                 .HasConstraintName("R_13");
-
-                entity.HasData(
-                    new TaskDistribution 
-                    {
-                        Id = 1,
-                        IdLevel = 1,
-                        IdTask = 1,
-                        TaskDifficulty = "CSS",
-                        TaskOrder = 1
-                    });
             });
 
             modelBuilder.Entity<TaskResult>(entity => 
