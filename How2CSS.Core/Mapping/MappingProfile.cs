@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using How2CSS.Core.DTO.AchievementsDTOs.SpecializedDTOs;
 using How2CSS.Core.DTO.AchievementsDTOs.StandartDTOs;
+using How2CSS.Core.DTO.AnotherDTOs.SpecializedDTOs;
 using How2CSS.Core.DTO.AnotherDTOs.StandartDTOs;
 using How2CSS.Core.Models;
 using System;
@@ -40,6 +41,8 @@ namespace How2CSS.Core.Mapping
             CreateMap<Level, LevelDTO>();
             CreateMap<LevelDTO, Level>();
 
+            CreateMap<Level, LevelTasksDTO>();
+
             CreateMap<AchievementData, SimpleAchievDataDTO>()
                 .ForMember(dest => dest.CompletedCount, opts => opts.MapFrom(item => item.CompletedCount.ToString() + "/" + item.IdUserAchievementNavigation.IdLevelNavigation.TasksCount.ToString()))
                 .ForMember(dest => dest.CorrectCount, opts => opts.MapFrom(item => item.CorrectCount.ToString() + "/" + item.IdUserAchievementNavigation.IdLevelNavigation.TasksCount.ToString()))
@@ -55,13 +58,23 @@ namespace How2CSS.Core.Mapping
                 .ForMember(dest => dest.AchievNotes, opts => opts.MapFrom(item => item.IdUserAchievementNavigation.Notes));
 
             CreateMap<Answer, AnswerDTO>().ReverseMap();
+
             CreateMap<CSSTask, CSSTaskDTO>().ReverseMap();
+            CreateMap<CSSTask, CSSTaskDetailedDTO>()
+                .ForMember(dest => dest.Answer, opts => opts.MapFrom(item => item.IdAnswerNavigation.EtalonAnswer))
+                .ForMember(dest => dest.Question, opts => opts.MapFrom(item => item.IdQuestionNavigation.QuestionText));
+
+
             CreateMap<Hint, HintDTO>().ReverseMap();
             CreateMap<Metadata, MetadataDTO>().ReverseMap();
             CreateMap<Question, QuestionDTO>().ReverseMap();
             CreateMap<TagDistribution, TagDistributionDTO>().ReverseMap();
             CreateMap<Tag, TagDTO>().ReverseMap();
             CreateMap<TaskDistribution, TaskDistributionDTO>().ReverseMap();
+
+            CreateMap<TaskDistribution, TaskDistributionDetailedDTO>()
+                .ForMember(dest => dest.Task, opts => opts.MapFrom(item => item.IdTaskNavigation));
+
             CreateMap<TaskResult, TaskResultDTO>().ReverseMap();
             CreateMap<UnitDistribution, UnitDistributionDTO>().ReverseMap();
             CreateMap<Unit, UnitDTO>().ReverseMap();
