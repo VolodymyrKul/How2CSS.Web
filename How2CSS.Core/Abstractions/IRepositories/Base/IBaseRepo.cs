@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace How2CSS.Core.Abstractions.IRepositories.Base
         Task DeleteAsync(TEntity entity);
         Task DeleteRangeAsync(IEnumerable<TEntity> entities);
         Task<IEnumerable<TEntity>> GetAllAsync();
+        IQueryable<TEntity> Get();
         Task<TEntity> GetByIdAsync(int id);
         Task UpdateAsync(TEntity entity);
         Task UpdateRangeAsync(IEnumerable<TEntity> entities);

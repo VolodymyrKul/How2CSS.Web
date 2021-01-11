@@ -2,8 +2,11 @@
 using How2CSS.Core.Abstractions;
 using How2CSS.Core.Abstractions.IServices;
 using How2CSS.Core.DTO.AchievementsDTOs.StandartDTOs;
+using How2CSS.Core.DTO.AnotherDTOs.StandartDTOs;
+using How2CSS.Core.Enums;
 using How2CSS.Core.Models;
 using How2CSS.Services.Base;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +29,77 @@ namespace How2CSS.Services
             await _unitOfWork.SaveChangesAsync();
         }
 
+        public virtual async Task GenerateAsync(Difficulty difficulty)
+        {
+            var random = new Random();
+            var units = await _unitOfWork.UnitRepo.GetAllAsync();
+            var unitIndx = random.Next(units.Count() - 1);
+            var unit = units.ToList()[unitIndx];
+
+            var value = new Level();
+            var level = await _unitOfWork.LevelRepo.Get().Where(e => e.Title.StartsWith(unit.Name)).OrderBy(e => e.Id).LastOrDefaultAsync();
+
+            int levelIndx;
+
+            if (level != null)
+            {
+                levelIndx = Int32.Parse(level.Title.Substring(unit.Name.Length + 3)) + 1;
+            }
+            else
+                levelIndx = 1;
+
+            value.Title = $"{unit.Name} - {levelIndx}";
+            value.LevelDifficulty = difficulty;
+
+            switch (difficulty)
+            {
+                case Difficulty.Easy:
+                    value.TasksCount = new Random().Next(5, 11);
+                    break;
+                case Difficulty.Medium:
+                    value.TasksCount = new Random().Next(11, 16);
+                    break;
+                case Difficulty.Hard:
+                    value.TasksCount = new Random().Next(16, 21);
+                    break;
+                default:
+                    value.TasksCount = new Random().Next(11, 16); ;
+                    break;
+            }
+
+            var unitDistributions = await _unitOfWork.UnitDistributionRepo.Get()
+                .Include(e => e.IdMetadataNavigation).ThenInclude(e => e.Tasks)
+                .Where(e => e.IdUnit == unit.Id)
+                .ToListAsync();
+
+            var tasks = new List<CSSTask>();
+            foreach (var e in unitDistributions)
+            {
+                tasks.AddRange(e.IdMetadataNavigation.Tasks);
+            }
+
+            for (int i = 0; i < value.TasksCount; i++)
+            {
+                int taskIndx;
+                TaskDistribution taskDistribution;
+                do
+                {
+                    taskIndx = random.Next(tasks.Count);
+                    taskDistribution = new TaskDistribution
+                    {
+                        IdTask = tasks[taskIndx].Id,
+                        TaskOrder = i + 1
+                    };
+                }
+                while (value.TaskDistributions.Where(e=>e.IdTask == taskDistribution.IdTask).FirstOrDefault() != null);
+
+                value.TaskDistributions.Add(taskDistribution);
+            }
+
+            await _unitOfWork.LevelRepo.AddAsync(value);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
         public virtual async Task DeleteAsync(int id)
         {
             var entity = await _unitOfWork.LevelRepo.GetByIdAsync(id);
@@ -42,11 +116,27 @@ namespace How2CSS.Services
 
         public virtual async Task<LevelDTO> GetIdAsync(int id)
         {
-            var level = await _unitOfWork.LevelRepo.GetByIdAsync(id);
+            var level = await _unitOfWork.TaskDistributionRepo.Get()
+                .Include(e => e.IdLevelNavigation)
+                .Include(e => e.IdTaskNavigation)
+                .Include(e => e.IdTaskNavigation.IdQuestionNavigation)
+                .Include(e => e.IdTaskNavigation.IdAnswerNavigation)
+                .Where(e => e.IdLevel == id).ToListAsync();
+
+            var tasks = level.Select(e => e.IdTaskNavigation);
+
             if (level == null)
-                throw new Exception("Such order not found");
-            var dto = new LevelDTO();
-            _mapper.Map(level, dto);
+                throw new Exception("Such level not found");
+
+            var dto = new LevelDTO()
+            {
+                Id = level.First().IdLevel,
+                Title = level.First().IdLevelNavigation.Title,
+                LevelDifficulty = level.First().IdLevelNavigation.LevelDifficulty,
+                TasksCount = level.First().IdLevelNavigation.TasksCount,
+                Tasks = _mapper.Map<List<CSSTaskDTOOutput>>(tasks)
+            };
+
             return dto;
         }
 
