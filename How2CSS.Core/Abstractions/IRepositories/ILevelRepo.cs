@@ -9,6 +9,6 @@ namespace How2CSS.Core.Abstractions.IRepositories
 {
     public interface ILevelRepo : IBaseRepo<Level>
     {
-        Task<IEnumerable<Level>> GetAllDetailedAsync();
+        Task<IEnumerable<Level>> GetAllDetailedAsync(int userId);
     }
 }

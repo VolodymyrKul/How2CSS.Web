@@ -1,5 +1,6 @@
 using How2CSS.DAL;
 using How2CSS.Web.Extensions;
+using How2CSS.Web.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -43,6 +44,8 @@ namespace How2CSS.Web
                                              .AllowAnyHeader();
                                   });
             });
+
+            services.AddMvcCore(options => options.Filters.Add(typeof(CustomExceptionFilterAttribute)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,6 +4,7 @@ using How2CSS.DAL.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace How2CSS.DAL.Repositories
             _context = context;
         }
 
-        public virtual async Task<IEnumerable<Level>> GetAllDetailedAsync()
+        public virtual async Task<IEnumerable<Level>> GetAllDetailedAsync(int userId)
         {
             return await _context.Set<Level>()
                 .Include(l => l.TaskDistributions)
@@ -31,7 +32,7 @@ namespace How2CSS.DAL.Repositories
                         .ThenInclude(t => t.IdMetadataNavigation)
                 .Include(l => l.TaskDistributions)
                     .ThenInclude(td => td.IdTaskNavigation)
-                        .ThenInclude(t => t.TaskResults)
+                        .ThenInclude(t => t.TaskResults.Where(tr => tr.IdUser == userId))
                 .ToListAsync();
         }
     }

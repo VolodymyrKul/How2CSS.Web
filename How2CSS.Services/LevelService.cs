@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using How2CSS.Services.Exceptions;
 
 namespace How2CSS.Services
 {
@@ -115,9 +116,17 @@ namespace How2CSS.Services
             return levelDTOs;
         }
 
-        public virtual async Task<List<LevelTasksDTO>> GetAllDetailed()
+        public virtual async Task<List<LevelTasksDTO>> GetAllDetailed(string email)
         {
-            var levels = await _unitOfWork.LevelRepo.GetAllDetailedAsync();
+            var users = await _unitOfWork.UserRepo.GetAllAsync();
+                
+            var user = users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                throw new NotFoundException("User");
+            }
+
+            var levels = await _unitOfWork.LevelRepo.GetAllDetailedAsync(user.Id);
             var levelDtos = levels.Select(cSSTask => _mapper.Map(cSSTask, new LevelTasksDTO())).ToList();
             return levelDtos;
         }

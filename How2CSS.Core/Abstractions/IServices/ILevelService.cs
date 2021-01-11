@@ -13,6 +13,6 @@ namespace How2CSS.Core.Abstractions.IServices
     public interface ILevelService : IBaseService<LevelDTO, LevelDTO>
     {
         Task GenerateAsync(Difficulty difficulty);
-        Task<List<LevelTasksDTO>> GetAllDetailed();
+        Task<List<LevelTasksDTO>> GetAllDetailed(string email);
     }
 }

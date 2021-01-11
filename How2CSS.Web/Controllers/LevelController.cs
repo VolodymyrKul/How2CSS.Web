@@ -30,11 +30,11 @@ namespace How2CSS.Web.Controllers
 
         }
 
-        [HttpGet("detailed")]
-        public async Task<ActionResult<List<LevelTasksDTO>>> GetDetailed()
+        [HttpGet("detailed/{email}")]
+        public async Task<ActionResult<List<LevelTasksDTO>>> GetDetailed(string email)
         {
 
-            var result = await _levelService.GetAllDetailed();
+            var result = await _levelService.GetAllDetailed(email);
             return Ok(result);
 
         }
