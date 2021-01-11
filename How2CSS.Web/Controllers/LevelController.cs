@@ -1,6 +1,7 @@
 ﻿using How2CSS.Core.Abstractions.IServices;
 using How2CSS.Core.DTO.AchievementsDTOs.StandartDTOs;
 using How2CSS.Core.Enums;
+using How2CSS.Core.DTO.AnotherDTOs.SpecializedDTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,15 @@ namespace How2CSS.Web.Controllers
         {
 
             var result = await _levelService.GetAll();
+            return Ok(result);
+
+        }
+
+        [HttpGet("detailed/{email}")]
+        public async Task<ActionResult<List<LevelTasksDTO>>> GetDetailed(string email)
+        {
+
+            var result = await _levelService.GetAllDetailed(email);
             return Ok(result);
 
         }

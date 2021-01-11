@@ -4,6 +4,7 @@ using How2CSS.Core.Abstractions.IServices;
 using How2CSS.Core.DTO.AchievementsDTOs.StandartDTOs;
 using How2CSS.Core.DTO.AnotherDTOs.StandartDTOs;
 using How2CSS.Core.Enums;
+using How2CSS.Core.DTO.AnotherDTOs.SpecializedDTOs;
 using How2CSS.Core.Models;
 using How2CSS.Services.Base;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using How2CSS.Services.Exceptions;
 
 namespace How2CSS.Services
 {
@@ -106,6 +108,21 @@ namespace How2CSS.Services
             var levels = await _unitOfWork.LevelRepo.GetAllAsync();
             List<LevelDTO> levelDTOs = levels.Select(level => _mapper.Map(level, new LevelDTO())).ToList();
             return levelDTOs;
+        }
+
+        public virtual async Task<List<LevelTasksDTO>> GetAllDetailed(string email)
+        {
+            var users = await _unitOfWork.UserRepo.GetAllAsync();
+                
+            var user = users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                throw new NotFoundException("User");
+            }
+
+            var levels = await _unitOfWork.LevelRepo.GetAllDetailedAsync(user.Id);
+            var levelDtos = levels.Select(cSSTask => _mapper.Map(cSSTask, new LevelTasksDTO())).ToList();
+            return levelDtos;
         }
 
         public virtual async Task<LevelDTO> GetIdAsync(int id)
