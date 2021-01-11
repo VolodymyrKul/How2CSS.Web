@@ -23,7 +23,7 @@ namespace How2CSS.DAL
         private ITagRepo _tagRepo;
         private ITaskDistributionRepo _taskDistributionRepo;
         private ITaskResultRepo _taskResultRepo;
-        private IUnitDistributionRepo _unitDistributionRepo;
+        //private IUnitDistributionRepo _unitDistributionRepo;
         private IUnitRepo _unitRepo;
         private How2CSSDbContext _context;
 
@@ -115,10 +115,10 @@ namespace How2CSS.DAL
             get { return _taskResultRepo ??= new TaskResultRepo(_context); }
         }
 
-        public IUnitDistributionRepo UnitDistributionRepo
-        {
-            get { return _unitDistributionRepo ??= new UnitDistributionRepo(_context); }
-        }
+        //public IUnitDistributionRepo UnitDistributionRepo
+        //{
+        //    get { return _unitDistributionRepo ??= new UnitDistributionRepo(_context); }
+        //}
 
         public IUnitRepo UnitRepo
         {

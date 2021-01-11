@@ -17,7 +17,7 @@ namespace How2CSS.Core.Abstractions
         ITagRepo TagRepo { get; }
         ITaskDistributionRepo TaskDistributionRepo { get; }
         ITaskResultRepo TaskResultRepo { get; }
-        IUnitDistributionRepo UnitDistributionRepo { get; }
+        //IUnitDistributionRepo UnitDistributionRepo { get; }
         IUnitRepo UnitRepo { get; }
         IUserRepo UserRepo { get; }
         IUserAchievementRepo UserAchievementRepo { get; }

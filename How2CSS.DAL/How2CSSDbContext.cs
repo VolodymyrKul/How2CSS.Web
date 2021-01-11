@@ -24,7 +24,7 @@ namespace How2CSS.DAL
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
         public virtual DbSet<TagDistribution> TagDistributions { get; set; }
-        public virtual DbSet<UnitDistribution> UnitDistributions { get; set; }
+        //public virtual DbSet<UnitDistribution> UnitDistributions { get; set; }
         public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<Metadata> Metadatas { get; set; }
@@ -608,32 +608,32 @@ namespace How2CSS.DAL
                     });
             });
 
-            modelBuilder.Entity<UnitDistribution>(entity => 
-            {
-                entity.HasKey(e => e.Id)
-                .HasName("XPKUnitDistribution");
+            //modelBuilder.Entity<UnitDistribution>(entity => 
+            //{
+            //    entity.HasKey(e => e.Id)
+            //    .HasName("XPKUnitDistribution");
 
-                entity.Property(e => e.Id)
-                .HasColumnName("Id_UnitDistribution");
+            //    entity.Property(e => e.Id)
+            //    .HasColumnName("Id_UnitDistribution");
 
-                entity.HasOne(ud => ud.IdUnitNavigation)
-                .WithMany(u => u.UnitDistributions)
-                .HasForeignKey(ud => ud.IdUnit)
-                .HasConstraintName("R_6");
+            //    entity.HasOne(ud => ud.IdUnitNavigation)
+            //    .WithMany(u => u.UnitDistributions)
+            //    .HasForeignKey(ud => ud.IdUnit)
+            //    .HasConstraintName("R_6");
 
-                entity.HasOne(ud => ud.IdMetadataNavigation)
-                .WithMany(m => m.UnitDistributions)
-                .HasForeignKey(ud => ud.IdMetadata)
-                .HasConstraintName("R_7");
+            //    entity.HasOne(ud => ud.IdMetadataNavigation)
+            //    .WithMany(m => m.UnitDistributions)
+            //    .HasForeignKey(ud => ud.IdMetadata)
+            //    .HasConstraintName("R_7");
 
-                entity.HasData(
-                    new UnitDistribution 
-                    {
-                        Id = 1,
-                        IdMetadata = 1,
-                        IdUnit = 1
-                    });
-            });
+            //    entity.HasData(
+            //        new UnitDistribution 
+            //        {
+            //            Id = 1,
+            //            IdMetadata = 1,
+            //            IdUnit = 1
+            //        });
+            //});
 
             modelBuilder.Entity<Metadata>(entity => 
             {

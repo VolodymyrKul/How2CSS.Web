@@ -31,7 +31,6 @@ namespace How2CSS.Web.Extensions
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<ITaskDistributionService, TaskDistributionService>();
             services.AddScoped<ITaskResultService, TaskResultService>();
-            services.AddScoped<IUnitDistributionService, UnitDistributionService>();
             services.AddScoped<IUnitService, UnitService>();
         }
 

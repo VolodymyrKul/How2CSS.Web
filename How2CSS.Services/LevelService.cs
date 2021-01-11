@@ -67,16 +67,10 @@ namespace How2CSS.Services
                     break;
             }
 
-            var unitDistributions = await _unitOfWork.UnitDistributionRepo.Get()
-                .Include(e => e.IdMetadataNavigation).ThenInclude(e => e.Tasks)
-                .Where(e => e.IdUnit == unit.Id)
+            var tasks = await _unitOfWork.CSSTaskRepo.Get()
+                .Include(e => e.IdMetadataNavigation)
+                .Where(e => e.IdMetadataNavigation.IdUnit == unit.Id)
                 .ToListAsync();
-
-            var tasks = new List<CSSTask>();
-            foreach (var e in unitDistributions)
-            {
-                tasks.AddRange(e.IdMetadataNavigation.Tasks);
-            }
 
             for (int i = 0; i < value.TasksCount; i++)
             {
