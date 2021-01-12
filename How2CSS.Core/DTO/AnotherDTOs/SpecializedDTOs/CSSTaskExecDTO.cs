@@ -6,6 +6,8 @@
 
         public string Question { get; set; }
 
+        public string HtmlText { get; set; }
+
         public string Answer { get; set; }
 
         public string LevelTitle { get; set; }
