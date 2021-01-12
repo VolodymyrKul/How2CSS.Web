@@ -13,6 +13,7 @@ namespace How2CSS.Core.Models
         }
         public int Id { get; set; }
         public string QuestionText { get; set; }
+        public string HtmlText { get; set; }
         public virtual ICollection<CSSTask> Tasks { get; set; }
     }
 }

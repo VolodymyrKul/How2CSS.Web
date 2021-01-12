@@ -8,5 +8,6 @@ namespace How2CSS.Core.DTO.AnotherDTOs.StandartDTOs
     {
         public int Id { get; set; }
         public string QuestionText { get; set; }
+        public string HtmlText { get; set; }
     }
 }
