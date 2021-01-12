@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using How2CSS.Core.Abstractions;
 using How2CSS.Core.Abstractions.IServices;
+using How2CSS.Core.DTO.AnotherDTOs.SpecializedDTOs;
 using How2CSS.Core.DTO.AnotherDTOs.StandartDTOs;
 using How2CSS.Core.Models;
 using How2CSS.Services.Base;
+using How2CSS.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +41,14 @@ namespace How2CSS.Services
             var cSSTasks = await _unitOfWork.CSSTaskRepo.GetAllAsync();
             List<CSSTaskDTO> cSSTaskDTOs = cSSTasks.Select(cSSTask => _mapper.Map(cSSTask, new CSSTaskDTO())).ToList();
             return cSSTaskDTOs;
+        }
+
+        public virtual async Task<CSSTaskExecDTO> GetExecAsync(int id)
+        {
+            var cssTask = await _unitOfWork.CSSTaskRepo.GetExecAsync(id);
+            if (cssTask == null)
+                throw new NotFoundException("Task", id);
+            return _mapper.Map<CSSTaskExecDTO>(cssTask);
         }
 
         public virtual async Task<CSSTaskDTO> GetIdAsync(int id)

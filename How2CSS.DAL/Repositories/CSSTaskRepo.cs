@@ -27,5 +27,15 @@ namespace How2CSS.DAL.Repositories
                 .Include(t => t.TaskResults)
                 .ToListAsync();
         }
+
+        public virtual async Task<CSSTask> GetExecAsync(int id)
+        {
+            return await _context.Set<CSSTask>()
+                .Include(t => t.IdAnswerNavigation)
+                .Include(t => t.IdQuestionNavigation)
+                .Include(t => t.TaskDistributions)
+                    .ThenInclude(td => td.IdLevelNavigation)
+                .FirstOrDefaultAsync(t => t.Id == id);
+        }
     }
 }

@@ -10,5 +10,7 @@ namespace How2CSS.Core.Abstractions.IRepositories
     public interface ICSSTaskRepo : IBaseRepo<CSSTask>
     {
         Task<IEnumerable<CSSTask>> GetAllDetailedAsync();
+
+        Task<CSSTask> GetExecAsync(int id);
     }
 }
