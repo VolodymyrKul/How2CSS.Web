@@ -63,6 +63,7 @@ namespace How2CSS.Core.Mapping
             CreateMap<CSSTask, CSSTaskDTO>().ReverseMap();
             CreateMap<CSSTask, CSSTaskDTOOutput>()
                 .ForMember(dest => dest.QuestionText, opts => opts.MapFrom(src => src.IdQuestionNavigation.QuestionText))
+                .ForMember(dest=>dest.HtmlText, opts => opts.MapFrom(src => src.IdQuestionNavigation.HtmlText))
                 .ForMember(dest => dest.EtalonAnswer, opts => opts.MapFrom(src => src.IdAnswerNavigation.EtalonAnswer));
 
             CreateMap<CSSTask, CSSTaskExecDTO>()
