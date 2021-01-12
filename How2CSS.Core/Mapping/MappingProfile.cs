@@ -6,6 +6,7 @@ using How2CSS.Core.DTO.AnotherDTOs.StandartDTOs;
 using How2CSS.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace How2CSS.Core.Mapping
@@ -63,6 +64,11 @@ namespace How2CSS.Core.Mapping
             CreateMap<CSSTask, CSSTaskDTOOutput>()
                 .ForMember(dest => dest.QuestionText, opts => opts.MapFrom(src => src.IdQuestionNavigation.QuestionText))
                 .ForMember(dest => dest.EtalonAnswer, opts => opts.MapFrom(src => src.IdAnswerNavigation.EtalonAnswer));
+
+            CreateMap<CSSTask, CSSTaskExecDTO>()
+                .ForMember(dest => dest.Question, opts => opts.MapFrom(src => src.IdQuestionNavigation.QuestionText))
+                .ForMember(dest => dest.Answer, opts => opts.MapFrom(src => src.IdAnswerNavigation.EtalonAnswer))
+                .ForMember(dest => dest.LevelTitle, opts => opts.MapFrom(src => src.TaskDistributions.FirstOrDefault()!.IdLevelNavigation.Title));
 
             CreateMap<CSSTask, CSSTaskDetailedDTO>()
                 .ForMember(dest => dest.Answer, opts => opts.MapFrom(item => item.IdAnswerNavigation.EtalonAnswer))

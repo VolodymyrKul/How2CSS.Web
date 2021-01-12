@@ -1,4 +1,5 @@
 ﻿using How2CSS.Core.Abstractions.IServices;
+using How2CSS.Core.DTO.AnotherDTOs.SpecializedDTOs;
 using How2CSS.Core.DTO.AnotherDTOs.StandartDTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -32,6 +33,13 @@ namespace How2CSS.Web.Controllers
         public async Task<ActionResult<CSSTaskDTO>> getById(int id)
         {
             var result = await _cSSTaskService.GetIdAsync(id);
+            return Ok(result);
+        }
+
+        [HttpGet("exec/{id}")]
+        public async Task<ActionResult<CSSTaskExecDTO>> getExecById(int id)
+        {
+            var result = await _cSSTaskService.GetExecAsync(id);
             return Ok(result);
         }
 
