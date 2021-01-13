@@ -69,7 +69,7 @@ namespace How2CSS.Services
 
             var tasks = await _unitOfWork.CSSTaskRepo.Get()
                 .Include(e => e.IdMetadataNavigation)
-                .Where(e => e.IdMetadataNavigation.IdUnit == unit.Id)
+                .Where(e => e.IdMetadataNavigation.IdUnit == unit.Id && e.TaskDifficulty == difficulty)
                 .ToListAsync();
 
             for (int i = 0; i < value.TasksCount; i++)
