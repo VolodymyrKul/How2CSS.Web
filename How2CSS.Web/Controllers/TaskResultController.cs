@@ -1,4 +1,5 @@
 ﻿using How2CSS.Core.Abstractions.IServices;
+using How2CSS.Core.DTO.AnotherDTOs.SpecializedDTOs;
 using How2CSS.Core.DTO.AnotherDTOs.StandartDTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -40,6 +41,20 @@ namespace How2CSS.Web.Controllers
         {
             await _taskResultService.CreateAsync(order);
             return Ok(order);
+        }
+
+        [HttpPost("new")]
+        public async Task<ActionResult<TaskResultDTO>> Pull(TaskResultCreateDTO order)
+        {
+            var created = await _taskResultService.CreateNewAsync(order);
+            return Ok(created);
+        }
+
+        [HttpPut("edit")]
+        public async Task<ActionResult<TaskResultDTO>> Update(TaskResultUpdateDTO order)
+        {
+            var result = await _taskResultService.EditAsync(order);
+            return Ok(result);
         }
 
         [HttpPut]

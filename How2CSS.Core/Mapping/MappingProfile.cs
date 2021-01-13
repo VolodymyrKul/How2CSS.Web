@@ -88,6 +88,8 @@ namespace How2CSS.Core.Mapping
             CreateMap<TaskDistribution, TaskDistributionDetailedDTO>()
                 .ForMember(dest => dest.Task, opts => opts.MapFrom(item => item.IdTaskNavigation));
 
+            CreateMap<TaskResultCreateDTO, TaskResult>();
+
             CreateMap<TaskResult, TaskResultDTO>().ReverseMap();
             //CreateMap<UnitDistribution, UnitDistributionDTO>().ReverseMap();
             CreateMap<Unit, UnitDTO>().ReverseMap();
