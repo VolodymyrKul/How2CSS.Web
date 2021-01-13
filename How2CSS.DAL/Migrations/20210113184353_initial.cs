@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace How2CSS.DAL.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,23 +28,11 @@ namespace How2CSS.DAL.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", unicode: false, maxLength: 50, nullable: true),
                     TasksCount = table.Column<int>(type: "INTEGER", nullable: false),
-                    LevelDifficulty = table.Column<string>(type: "TEXT", unicode: false, maxLength: 20, nullable: true)
+                    LevelDifficulty = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("XPKLevel", x => x.Id_Level);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Metadatas",
-                columns: table => new
-                {
-                    Id_Metadata = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("XPKMetadata", x => x.Id_Metadata);
                 });
 
             migrationBuilder.CreateTable(
@@ -53,7 +41,8 @@ namespace How2CSS.DAL.Migrations
                 {
                     Id_Question = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    QuestionText = table.Column<string>(type: "TEXT", unicode: false, maxLength: 500, nullable: true)
+                    QuestionText = table.Column<string>(type: "TEXT", unicode: false, maxLength: 500, nullable: true),
+                    HtmlText = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -105,88 +94,23 @@ namespace How2CSS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tasks",
+                name: "Metadatas",
                 columns: table => new
                 {
-                    Id_Task = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    IdQuestion = table.Column<int>(type: "INTEGER", nullable: false),
-                    IdAnswer = table.Column<int>(type: "INTEGER", nullable: false),
-                    IdMetadata = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("XPKTask", x => x.Id_Task);
-                    table.ForeignKey(
-                        name: "R_10",
-                        column: x => x.IdQuestion,
-                        principalTable: "Questions",
-                        principalColumn: "Id_Question",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "R_11",
-                        column: x => x.IdMetadata,
-                        principalTable: "Metadatas",
-                        principalColumn: "Id_Metadata",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "R_9",
-                        column: x => x.IdAnswer,
-                        principalTable: "Answers",
-                        principalColumn: "Id_Answer",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TagDistributions",
-                columns: table => new
-                {
-                    Id_TagDistribution = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    IdTag = table.Column<int>(type: "INTEGER", nullable: false),
-                    IdMetadata = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("XPKTagDistribution", x => x.Id_TagDistribution);
-                    table.ForeignKey(
-                        name: "R_4",
-                        column: x => x.IdTag,
-                        principalTable: "Tags",
-                        principalColumn: "Id_Tag",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "R_5",
-                        column: x => x.IdMetadata,
-                        principalTable: "Metadatas",
-                        principalColumn: "Id_Metadata",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UnitDistributions",
-                columns: table => new
-                {
-                    Id_UnitDistribution = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id_Metadata = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     IdUnit = table.Column<int>(type: "INTEGER", nullable: false),
-                    IdMetadata = table.Column<int>(type: "INTEGER", nullable: false)
+                    IdUnitNavigationId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("XPKUnitDistribution", x => x.Id_UnitDistribution);
+                    table.PrimaryKey("XPKMetadata", x => x.Id_Metadata);
                     table.ForeignKey(
-                        name: "R_6",
-                        column: x => x.IdUnit,
+                        name: "FK_Metadatas_Units_IdUnitNavigationId",
+                        column: x => x.IdUnitNavigationId,
                         principalTable: "Units",
                         principalColumn: "Id_Unit",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "R_7",
-                        column: x => x.IdMetadata,
-                        principalTable: "Metadatas",
-                        principalColumn: "Id_Metadata",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -219,6 +143,89 @@ namespace How2CSS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TagDistributions",
+                columns: table => new
+                {
+                    Id_TagDistribution = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    IdTag = table.Column<int>(type: "INTEGER", nullable: false),
+                    IdMetadata = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("XPKTagDistribution", x => x.Id_TagDistribution);
+                    table.ForeignKey(
+                        name: "R_4",
+                        column: x => x.IdTag,
+                        principalTable: "Tags",
+                        principalColumn: "Id_Tag",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "R_5",
+                        column: x => x.IdMetadata,
+                        principalTable: "Metadatas",
+                        principalColumn: "Id_Metadata",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tasks",
+                columns: table => new
+                {
+                    Id_Task = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    IdQuestion = table.Column<int>(type: "INTEGER", nullable: false),
+                    IdAnswer = table.Column<int>(type: "INTEGER", nullable: false),
+                    IdMetadata = table.Column<int>(type: "INTEGER", nullable: false),
+                    TaskDifficulty = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("XPKTask", x => x.Id_Task);
+                    table.ForeignKey(
+                        name: "R_10",
+                        column: x => x.IdQuestion,
+                        principalTable: "Questions",
+                        principalColumn: "Id_Question",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "R_11",
+                        column: x => x.IdMetadata,
+                        principalTable: "Metadatas",
+                        principalColumn: "Id_Metadata",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "R_9",
+                        column: x => x.IdAnswer,
+                        principalTable: "Answers",
+                        principalColumn: "Id_Answer",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AchievementDatas",
+                columns: table => new
+                {
+                    Id_AchievementData = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CompletedCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    CorrectCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    CurrentMark = table.Column<int>(type: "INTEGER", nullable: false),
+                    TryCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    IdUserAchievement = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("XPKAchievementData", x => x.Id_AchievementData);
+                    table.ForeignKey(
+                        name: "R_2",
+                        column: x => x.IdUserAchievement,
+                        principalTable: "UserAchievements",
+                        principalColumn: "Id_UserAchievement",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Hints",
                 columns: table => new
                 {
@@ -245,7 +252,6 @@ namespace How2CSS.DAL.Migrations
                 {
                     Id_TaskDistribution = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    TaskDifficulty = table.Column<string>(type: "TEXT", unicode: false, maxLength: 20, nullable: true),
                     TaskOrder = table.Column<int>(type: "INTEGER", nullable: false),
                     IdTask = table.Column<int>(type: "INTEGER", nullable: false),
                     IdLevel = table.Column<int>(type: "INTEGER", nullable: false)
@@ -297,29 +303,6 @@ namespace How2CSS.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "AchievementDatas",
-                columns: table => new
-                {
-                    Id_AchievementData = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CompletedCount = table.Column<int>(type: "INTEGER", nullable: false),
-                    CorrectCount = table.Column<int>(type: "INTEGER", nullable: false),
-                    CurrentMark = table.Column<int>(type: "INTEGER", nullable: false),
-                    TryCount = table.Column<int>(type: "INTEGER", nullable: false),
-                    IdUserAchievement = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("XPKAchievementData", x => x.Id_AchievementData);
-                    table.ForeignKey(
-                        name: "R_2",
-                        column: x => x.IdUserAchievement,
-                        principalTable: "UserAchievements",
-                        principalColumn: "Id_UserAchievement",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "Answers",
                 columns: new[] { "Id_Answer", "EtalonAnswer" },
@@ -328,37 +311,37 @@ namespace How2CSS.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "Levels",
                 columns: new[] { "Id_Level", "LevelDifficulty", "TasksCount", "Title" },
-                values: new object[] { 1, "Hard", 30, "CSS_Part1" });
+                values: new object[] { 1, 1, 30, "Some title 1" });
 
             migrationBuilder.InsertData(
                 table: "Levels",
                 columns: new[] { "Id_Level", "LevelDifficulty", "TasksCount", "Title" },
-                values: new object[] { 2, "Hard", 30, "CSS_Part2" });
+                values: new object[] { 2, 1, 30, "Some title 2" });
 
             migrationBuilder.InsertData(
                 table: "Levels",
                 columns: new[] { "Id_Level", "LevelDifficulty", "TasksCount", "Title" },
-                values: new object[] { 3, "Hard", 30, "CSS_Part3" });
+                values: new object[] { 3, 1, 30, "Some title 3" });
 
             migrationBuilder.InsertData(
                 table: "Levels",
                 columns: new[] { "Id_Level", "LevelDifficulty", "TasksCount", "Title" },
-                values: new object[] { 4, "Hard", 30, "CSS_Part4" });
+                values: new object[] { 4, 1, 30, "Some title 4" });
 
             migrationBuilder.InsertData(
                 table: "Levels",
                 columns: new[] { "Id_Level", "LevelDifficulty", "TasksCount", "Title" },
-                values: new object[] { 5, "Hard", 30, "CSS_Part5" });
+                values: new object[] { 5, 1, 30, "Some title 5" });
 
             migrationBuilder.InsertData(
                 table: "Metadatas",
-                column: "Id_Metadata",
-                value: 1);
+                columns: new[] { "Id_Metadata", "IdUnit", "IdUnitNavigationId" },
+                values: new object[] { 1, 0, null });
 
             migrationBuilder.InsertData(
                 table: "Questions",
-                columns: new[] { "Id_Question", "QuestionText" },
-                values: new object[] { 1, "CSS" });
+                columns: new[] { "Id_Question", "HtmlText", "QuestionText" },
+                values: new object[] { 1, null, "CSS" });
 
             migrationBuilder.InsertData(
                 table: "Tags",
@@ -402,13 +385,8 @@ namespace How2CSS.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "Tasks",
-                columns: new[] { "Id_Task", "IdAnswer", "IdMetadata", "IdQuestion" },
-                values: new object[] { 1, 1, 1, 1 });
-
-            migrationBuilder.InsertData(
-                table: "UnitDistributions",
-                columns: new[] { "Id_UnitDistribution", "IdMetadata", "IdUnit" },
-                values: new object[] { 1, 1, 1 });
+                columns: new[] { "Id_Task", "IdAnswer", "IdMetadata", "IdQuestion", "TaskDifficulty" },
+                values: new object[] { 1, 1, 1, 1, 0 });
 
             migrationBuilder.InsertData(
                 table: "UserAchievements",
@@ -538,12 +516,12 @@ namespace How2CSS.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "AchievementDatas",
                 columns: new[] { "Id_AchievementData", "CompletedCount", "CorrectCount", "CurrentMark", "IdUserAchievement", "TryCount" },
-                values: new object[] { 29, 27, 22, 44, 10, 2 });
+                values: new object[] { 30, 30, 25, 50, 10, 3 });
 
             migrationBuilder.InsertData(
                 table: "AchievementDatas",
                 columns: new[] { "Id_AchievementData", "CompletedCount", "CorrectCount", "CurrentMark", "IdUserAchievement", "TryCount" },
-                values: new object[] { 30, 30, 25, 50, 10, 3 });
+                values: new object[] { 13, 23, 20, 40, 5, 1 });
 
             migrationBuilder.InsertData(
                 table: "AchievementDatas",
@@ -608,17 +586,12 @@ namespace How2CSS.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "AchievementDatas",
                 columns: new[] { "Id_AchievementData", "CompletedCount", "CorrectCount", "CurrentMark", "IdUserAchievement", "TryCount" },
-                values: new object[] { 13, 23, 20, 40, 5, 1 });
+                values: new object[] { 29, 27, 22, 44, 10, 2 });
 
             migrationBuilder.InsertData(
                 table: "Hints",
                 columns: new[] { "Id_Hint", "HintText", "HintType", "IdTask" },
                 values: new object[] { 1, "CSS", "CSS", 1 });
-
-            migrationBuilder.InsertData(
-                table: "TaskDistributions",
-                columns: new[] { "Id_TaskDistribution", "IdLevel", "IdTask", "TaskDifficulty", "TaskOrder" },
-                values: new object[] { 1, 1, 1, "CSS", 1 });
 
             migrationBuilder.InsertData(
                 table: "TaskResults",
@@ -634,6 +607,11 @@ namespace How2CSS.DAL.Migrations
                 name: "IX_Hints_IdTask",
                 table: "Hints",
                 column: "IdTask");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Metadatas_IdUnitNavigationId",
+                table: "Metadatas",
+                column: "IdUnitNavigationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TagDistributions_IdMetadata",
@@ -681,16 +659,6 @@ namespace How2CSS.DAL.Migrations
                 column: "IdQuestion");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UnitDistributions_IdMetadata",
-                table: "UnitDistributions",
-                column: "IdMetadata");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UnitDistributions_IdUnit",
-                table: "UnitDistributions",
-                column: "IdUnit");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserAchievements_IdLevel",
                 table: "UserAchievements",
                 column: "IdLevel");
@@ -719,9 +687,6 @@ namespace How2CSS.DAL.Migrations
                 name: "TaskResults");
 
             migrationBuilder.DropTable(
-                name: "UnitDistributions");
-
-            migrationBuilder.DropTable(
                 name: "UserAchievements");
 
             migrationBuilder.DropTable(
@@ -729,9 +694,6 @@ namespace How2CSS.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tasks");
-
-            migrationBuilder.DropTable(
-                name: "Units");
 
             migrationBuilder.DropTable(
                 name: "Users");
@@ -747,6 +709,9 @@ namespace How2CSS.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Answers");
+
+            migrationBuilder.DropTable(
+                name: "Units");
         }
     }
 }
