@@ -136,6 +136,38 @@ namespace How2CSS.DAL
                 entity.Property(e => e.Title)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+
+                entity.HasData(new Level
+                {
+                    Id = 1,
+                    LevelDifficulty = Difficulty.Easy,
+                    TasksCount = 30,
+                    Title="Some title 1"
+                }, new Level
+                {
+                    Id = 2,
+                    LevelDifficulty = Difficulty.Easy,
+                    TasksCount = 30,
+                    Title = "Some title 2"
+                }, new Level
+                {
+                    Id = 3,
+                    LevelDifficulty = Difficulty.Easy,
+                    TasksCount = 30,
+                    Title = "Some title 3"
+                }, new Level
+                {
+                    Id = 4,
+                    LevelDifficulty = Difficulty.Easy,
+                    TasksCount = 30,
+                    Title = "Some title 4"
+                }, new Level
+                {
+                    Id = 5,
+                    LevelDifficulty = Difficulty.Easy,
+                    TasksCount = 30,
+                    Title = "Some title 5"
+                });
             });
 
             modelBuilder.Entity<UserAchievement>(entity =>

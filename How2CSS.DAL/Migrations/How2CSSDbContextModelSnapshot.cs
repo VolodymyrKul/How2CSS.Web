@@ -443,6 +443,43 @@ namespace How2CSS.DAL.Migrations
                         .HasName("XPKLevel");
 
                     b.ToTable("Levels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            LevelDifficulty = 1,
+                            TasksCount = 30,
+                            Title = "Some title 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            LevelDifficulty = 1,
+                            TasksCount = 30,
+                            Title = "Some title 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            LevelDifficulty = 1,
+                            TasksCount = 30,
+                            Title = "Some title 3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            LevelDifficulty = 1,
+                            TasksCount = 30,
+                            Title = "Some title 4"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            LevelDifficulty = 1,
+                            TasksCount = 30,
+                            Title = "Some title 5"
+                        });
                 });
 
             modelBuilder.Entity("How2CSS.Core.Models.Metadata", b =>

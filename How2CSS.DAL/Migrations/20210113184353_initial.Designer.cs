@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace How2CSS.DAL.Migrations
 {
     [DbContext(typeof(How2CSSDbContext))]
-    [Migration("20210110121138_Change-Difficulty-To-Enum")]
-    partial class ChangeDifficultyToEnum
+    [Migration("20210113184353_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -361,6 +361,9 @@ namespace How2CSS.DAL.Migrations
                     b.Property<int>("IdQuestion")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("TaskDifficulty")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id")
                         .HasName("XPKTask");
 
@@ -378,7 +381,8 @@ namespace How2CSS.DAL.Migrations
                             Id = 1,
                             IdAnswer = 1,
                             IdMetadata = 1,
-                            IdQuestion = 1
+                            IdQuestion = 1,
+                            TaskDifficulty = 0
                         });
                 });
 
@@ -441,6 +445,43 @@ namespace How2CSS.DAL.Migrations
                         .HasName("XPKLevel");
 
                     b.ToTable("Levels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            LevelDifficulty = 1,
+                            TasksCount = 30,
+                            Title = "Some title 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            LevelDifficulty = 1,
+                            TasksCount = 30,
+                            Title = "Some title 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            LevelDifficulty = 1,
+                            TasksCount = 30,
+                            Title = "Some title 3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            LevelDifficulty = 1,
+                            TasksCount = 30,
+                            Title = "Some title 4"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            LevelDifficulty = 1,
+                            TasksCount = 30,
+                            Title = "Some title 5"
+                        });
                 });
 
             modelBuilder.Entity("How2CSS.Core.Models.Metadata", b =>
@@ -450,15 +491,24 @@ namespace How2CSS.DAL.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("Id_Metadata");
 
+                    b.Property<int>("IdUnit")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("IdUnitNavigationId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id")
                         .HasName("XPKMetadata");
+
+                    b.HasIndex("IdUnitNavigationId");
 
                     b.ToTable("Metadatas");
 
                     b.HasData(
                         new
                         {
-                            Id = 1
+                            Id = 1,
+                            IdUnit = 0
                         });
                 });
 
@@ -468,6 +518,9 @@ namespace How2CSS.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasColumnName("Id_Question");
+
+                    b.Property<string>("HtmlText")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("QuestionText")
                         .HasMaxLength(500)
@@ -556,9 +609,6 @@ namespace How2CSS.DAL.Migrations
                     b.Property<int>("IdTask")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TaskDifficulty")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("TaskOrder")
                         .HasColumnType("INTEGER");
 
@@ -643,37 +693,6 @@ namespace How2CSS.DAL.Migrations
                         {
                             Id = 1,
                             Name = "CSS"
-                        });
-                });
-
-            modelBuilder.Entity("How2CSS.Core.Models.UnitDistribution", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("Id_UnitDistribution");
-
-                    b.Property<int>("IdMetadata")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("IdUnit")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id")
-                        .HasName("XPKUnitDistribution");
-
-                    b.HasIndex("IdMetadata");
-
-                    b.HasIndex("IdUnit");
-
-                    b.ToTable("UnitDistributions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IdMetadata = 1,
-                            IdUnit = 1
                         });
                 });
 
@@ -954,6 +973,15 @@ namespace How2CSS.DAL.Migrations
                     b.Navigation("IdTaskNavigation");
                 });
 
+            modelBuilder.Entity("How2CSS.Core.Models.Metadata", b =>
+                {
+                    b.HasOne("How2CSS.Core.Models.Unit", "IdUnitNavigation")
+                        .WithMany("Metadatas")
+                        .HasForeignKey("IdUnitNavigationId");
+
+                    b.Navigation("IdUnitNavigation");
+                });
+
             modelBuilder.Entity("How2CSS.Core.Models.TagDistribution", b =>
                 {
                     b.HasOne("How2CSS.Core.Models.Metadata", "IdMetadataNavigation")
@@ -1017,27 +1045,6 @@ namespace How2CSS.DAL.Migrations
                     b.Navigation("IdUserNavigation");
                 });
 
-            modelBuilder.Entity("How2CSS.Core.Models.UnitDistribution", b =>
-                {
-                    b.HasOne("How2CSS.Core.Models.Metadata", "IdMetadataNavigation")
-                        .WithMany("UnitDistributions")
-                        .HasForeignKey("IdMetadata")
-                        .HasConstraintName("R_7")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("How2CSS.Core.Models.Unit", "IdUnitNavigation")
-                        .WithMany("UnitDistributions")
-                        .HasForeignKey("IdUnit")
-                        .HasConstraintName("R_6")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("IdMetadataNavigation");
-
-                    b.Navigation("IdUnitNavigation");
-                });
-
             modelBuilder.Entity("How2CSS.Core.Models.UserAchievement", b =>
                 {
                     b.HasOne("How2CSS.Core.Models.Level", "IdLevelNavigation")
@@ -1085,8 +1092,6 @@ namespace How2CSS.DAL.Migrations
                     b.Navigation("TagDistributions");
 
                     b.Navigation("Tasks");
-
-                    b.Navigation("UnitDistributions");
                 });
 
             modelBuilder.Entity("How2CSS.Core.Models.Question", b =>
@@ -1101,7 +1106,7 @@ namespace How2CSS.DAL.Migrations
 
             modelBuilder.Entity("How2CSS.Core.Models.Unit", b =>
                 {
-                    b.Navigation("UnitDistributions");
+                    b.Navigation("Metadatas");
                 });
 
             modelBuilder.Entity("How2CSS.Core.Models.User", b =>
