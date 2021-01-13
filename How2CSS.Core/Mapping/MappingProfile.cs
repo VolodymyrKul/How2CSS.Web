@@ -69,11 +69,13 @@ namespace How2CSS.Core.Mapping
             CreateMap<CSSTask, CSSTaskExecDTO>()
                 .ForMember(dest => dest.Question, opts => opts.MapFrom(src => src.IdQuestionNavigation.QuestionText))
                 .ForMember(dest => dest.Answer, opts => opts.MapFrom(src => src.IdAnswerNavigation.EtalonAnswer))
+                .ForMember(dest => dest.HtmlText, opts => opts.MapFrom(item => item.IdQuestionNavigation.HtmlText))
                 .ForMember(dest => dest.LevelTitle, opts => opts.MapFrom(src => src.TaskDistributions.FirstOrDefault()!.IdLevelNavigation.Title));
 
             CreateMap<CSSTask, CSSTaskDetailedDTO>()
                 .ForMember(dest => dest.Answer, opts => opts.MapFrom(item => item.IdAnswerNavigation.EtalonAnswer))
                 .ForMember(dest => dest.Question, opts => opts.MapFrom(item => item.IdQuestionNavigation.QuestionText));
+
 
 
             CreateMap<Hint, HintDTO>().ReverseMap();
@@ -85,6 +87,8 @@ namespace How2CSS.Core.Mapping
 
             CreateMap<TaskDistribution, TaskDistributionDetailedDTO>()
                 .ForMember(dest => dest.Task, opts => opts.MapFrom(item => item.IdTaskNavigation));
+
+            CreateMap<TaskResultCreateDTO, TaskResult>();
 
             CreateMap<TaskResult, TaskResultDTO>().ReverseMap();
             //CreateMap<UnitDistribution, UnitDistributionDTO>().ReverseMap();
