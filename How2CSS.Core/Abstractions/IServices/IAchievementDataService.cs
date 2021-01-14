@@ -14,6 +14,6 @@ namespace How2CSS.Core.Abstractions.IServices
         Task<List<CompareAchievDataDTO>> GetCompareAchievs(string OwnUserEmail, string AnotherUserEmail);
         Task<List<SimpleAchievDataDTO>> GetAchievsByEmail(string UserEmail);
         Task<List<DetailAchievDataDTO>> GetDetailAchievsByEmail(string UserEmail);
-        Task<bool> SaveAchievement(SetUserAchievementDTO setUserAchievementDTO);
+        Task<bool> SaveAchievement(UpdateUserAchievement updateUserAchievementDTO);
     }
 }

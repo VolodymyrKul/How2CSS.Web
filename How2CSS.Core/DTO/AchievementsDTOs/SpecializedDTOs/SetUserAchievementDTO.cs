@@ -8,8 +8,8 @@ namespace How2CSS.Core.DTO.AchievementsDTOs.SpecializedDTOs
     {
         public string Title { get; set; }
         public string Notes { get; set; }
-        public string LevelTitle { get; set; }
-        public string UserEmail { get; set; }
+        public int IdLevel { get; set; }
+        public int IdUser { get; set; }
         public int CompletedCount { get; set; }
         public int CorrectCount { get; set; }
         public int CurrentMark { get; set; }

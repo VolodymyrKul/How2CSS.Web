@@ -79,7 +79,7 @@ namespace How2CSS.Web.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<ActionResult<bool>> SaveUserAchievements(SetUserAchievementDTO achiev)
+        public async Task<ActionResult<bool>> SaveUserAchievements(UpdateUserAchievement achiev)
         {
             var result = await _achievementDataService.SaveAchievement(achiev);
             return Ok(result);

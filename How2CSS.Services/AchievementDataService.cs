@@ -185,41 +185,49 @@ namespace How2CSS.Services
             return simpleAchievDataDTOs;
         }
 
-        public virtual async Task<bool> SaveAchievement(SetUserAchievementDTO setUserAchievementDTO)
+        public virtual async Task<bool> SaveAchievement(UpdateUserAchievement updateUserAchievementDTO)
         {
-            User CurrentUser = (await _unitOfWork.UserRepo.GetAllAsync()).FirstOrDefault(u => u.Email == setUserAchievementDTO.UserEmail);
-            Level CurrentLevel = (await _unitOfWork.LevelRepo.GetAllAsync()).FirstOrDefault(l => l.Title == setUserAchievementDTO.LevelTitle);
-            if(CurrentUser == null)
+            //User CurrentUser = (await _unitOfWork.UserRepo.GetAllAsync()).FirstOrDefault(u => u.Email == setUserAchievementDTO.UserEmail);
+            //Level CurrentLevel = (await _unitOfWork.LevelRepo.GetAllAsync()).FirstOrDefault(l => l.Title == setUserAchievementDTO.LevelTitle);
+            //if(CurrentUser == null)
+            //{
+            //    return false;
+            //}
+            //UserAchievement userAchievement = (await _unitOfWork.UserAchievementRepo.GetAllAsync()).FirstOrDefault(ua => ua.IdUser == setUserAchievementDTO.IdUser && ua.IdLevel == setUserAchievementDTO.IdLevel);
+            //if(userAchievement == null)
+            //{
+            //    await _unitOfWork.UserAchievementRepo.AddAsync(new UserAchievement {
+            //        IdUser = setUserAchievementDTO.IdUser,
+            //        Title = setUserAchievementDTO.Title,
+            //        Notes = setUserAchievementDTO.Notes,
+            //        IdLevel = setUserAchievementDTO.IdLevel,
+            //        SaveDate = DateTime.Now
+            //    });
+            //    AchievementData achievementData = _mapper.Map(setUserAchievementDTO, new AchievementData());
+            //    achievementData.TryCount = 1;
+            //    achievementData.IdUserAchievement = (await _unitOfWork.UserAchievementRepo.GetAllAsync())
+            //        .FirstOrDefault(ua => ua.IdUser == setUserAchievementDTO.IdUser && ua.IdLevel == setUserAchievementDTO.IdLevel).Id;
+            //    await _unitOfWork.AchievementDataRepo.AddAsync(achievementData);
+            //}
+            //else
+            //{
+            //    userAchievement.Title = setUserAchievementDTO.Title;
+            //    userAchievement.Notes = setUserAchievementDTO.Notes;
+            //    userAchievement.SaveDate = DateTime.Now;
+            //    await _unitOfWork.UserAchievementRepo.UpdateAsync(userAchievement);
+            //    AchievementData achievementData = _mapper.Map(setUserAchievementDTO, new AchievementData());
+            //    achievementData.TryCount = (await _unitOfWork.AchievementDataRepo.GetAllAsync()).Count(ad => ad.IdUserAchievement == userAchievement.Id) + 1;
+            //    achievementData.IdUserAchievement = userAchievement.Id;
+            //    await _unitOfWork.AchievementDataRepo.AddAsync(achievementData);
+            //}
+            var userAchievements = (await _unitOfWork.UserAchievementRepo.GetAllAsync()).Where(ua => ua.Title == "Empty");
+            foreach(var userAchiev in userAchievements)
             {
-                return false;
+                userAchiev.Title = updateUserAchievementDTO.Title;
+                userAchiev.Notes = updateUserAchievementDTO.Notes;
+                await _unitOfWork.UserAchievementRepo.UpdateAsync(userAchiev);
             }
-            UserAchievement userAchievement = (await _unitOfWork.UserAchievementRepo.GetAllAsync()).FirstOrDefault(ua => ua.IdUser == CurrentUser.Id);
-            if(userAchievement == null)
-            {
-                await _unitOfWork.UserAchievementRepo.AddAsync(new UserAchievement {
-                    IdUser = CurrentUser.Id,
-                    Title = setUserAchievementDTO.Title,
-                    Notes = setUserAchievementDTO.Notes,
-                    IdLevel = CurrentLevel.Id,
-                    SaveDate = DateTime.Now
-                });
-                AchievementData achievementData = _mapper.Map(setUserAchievementDTO, new AchievementData());
-                achievementData.TryCount = 1;
-                achievementData.IdUserAchievement = (await _unitOfWork.UserAchievementRepo.GetAllAsync())
-                    .FirstOrDefault(ua => ua.IdUser == CurrentUser.Id && ua.IdLevel == CurrentLevel.Id).Id;
-                await _unitOfWork.AchievementDataRepo.AddAsync(achievementData);
-            }
-            else
-            {
-                userAchievement.Title = setUserAchievementDTO.Title;
-                userAchievement.Notes = setUserAchievementDTO.Notes;
-                userAchievement.SaveDate = DateTime.Now;
-                await _unitOfWork.UserAchievementRepo.UpdateAsync(userAchievement);
-                AchievementData achievementData = _mapper.Map(setUserAchievementDTO, new AchievementData());
-                achievementData.TryCount = (await _unitOfWork.AchievementDataRepo.GetAllAsync()).Count(ad => ad.IdUserAchievement == userAchievement.Id) + 1;
-                achievementData.IdUserAchievement = userAchievement.Id;
-                await _unitOfWork.AchievementDataRepo.AddAsync(achievementData);
-            }
+            await _unitOfWork.SaveChangesAsync();
             return true;
         }
     }
